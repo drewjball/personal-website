@@ -1,5 +1,6 @@
 import {
   BORDER_RADIUS,
+  BREAKPOINTS,
   FONT_SIZES,
   OPACITY,
   SHADOWS,
@@ -29,6 +30,11 @@ const Header = styled.div`
   gap: ${SPACING.MEDIUM};
   margin-bottom: ${SPACING.SMALL};
   justify-content: space-between;
+
+  @media (max-width: ${BREAKPOINTS.INTERMEDIATE}) {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
 `
 
 const ExpandButton = styled.button<{ isExpanded: boolean }>`
@@ -56,8 +62,10 @@ const Content = styled.div<{ isExpanded: boolean }>`
   max-height: ${({ isExpanded }) => (isExpanded ? "none" : "0")};
   overflow: hidden;
   opacity: ${({ isExpanded }) => (isExpanded ? "1" : "0")};
-  transition: ${TRANSITIONS.DEFAULT};
-  margin-top: ${({ isExpanded }) => (isExpanded ? SPACING.MEDIUM : "0")};
+
+  p:first-child {
+    margin-top: ${SPACING.SMALL};
+  }
 `
 
 interface CollapsibleCardProps {
@@ -65,7 +73,7 @@ interface CollapsibleCardProps {
   isExpanded: boolean
   onToggle: (id: string) => void
   header: React.ReactNode
-  children: React.ReactNode
+  description: React.ReactNode
   secondary?: boolean
   ariaLabel?: string
 }
@@ -75,7 +83,7 @@ export const CollapsibleCard = ({
   isExpanded,
   onToggle,
   header,
-  children,
+  description,
   secondary,
   ariaLabel,
 }: CollapsibleCardProps) => (
@@ -96,6 +104,6 @@ export const CollapsibleCard = ({
         <ChevronIcon isExpanded={isExpanded} aria-hidden="true" />
       </ExpandButton>
     </Header>
-    <Content isExpanded={isExpanded}>{children}</Content>
+    <Content isExpanded={isExpanded}>{description}</Content>
   </CardWrapper>
 )

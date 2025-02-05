@@ -30,10 +30,7 @@ const Nav = styled.nav<{ isOpen: boolean }>`
   z-index: ${Z_INDEX.NAVIGATION};
   padding: ${SPACING.MEDIUM} ${SPACING.LARGE};
   box-shadow: ${({ isOpen }) => (isOpen ? "none" : SHADOWS.MEDIUM)};
-
-  /* Remove any inherited transitions */
-  transition: none;
-  backdrop-filter: ${({ isOpen }) => (isOpen ? "none" : "blur(10px)")};
+  transition: ${TRANSITIONS.DEFAULT};
   -webkit-backdrop-filter: ${({ isOpen }) => (isOpen ? "none" : "blur(10px)")};
 `
 
@@ -53,6 +50,7 @@ const NavGroup = styled.div`
 
 const Logo = styled(Link)`
   text-decoration: none;
+  width: 40px;
   height: 40px;
   display: flex;
   align-items: center;

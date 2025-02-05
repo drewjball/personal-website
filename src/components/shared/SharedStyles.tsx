@@ -1,5 +1,4 @@
 import {
-  BORDER_RADIUS,
   BREAKPOINTS,
   FONT_SIZES,
   LINE_HEIGHTS,
@@ -68,47 +67,8 @@ export const SectionTitle = styled.h3<AlignProps>`
   }
 `
 
-export const Logo = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: ${BORDER_RADIUS.MEDIUM};
-  background-color: ${({ theme }) => theme.background};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`
-
-export const CardInfo = styled.div`
-  flex: 1;
-`
-
-export const CardTitle = styled.h3`
-  font-size: ${FONT_SIZES.LARGE};
-  color: ${({ theme }) => theme.primary};
-  margin-bottom: ${SPACING.XXSMALL};
-`
-
-export const CardSubtitle = styled.h4`
-  font-size: ${FONT_SIZES.MEDIUM};
-  color: ${({ theme }) => theme.text};
-  margin-bottom: ${SPACING.XXSMALL};
-`
-
-export const Period = styled.span`
-  font-size: ${FONT_SIZES.SMALL};
-  color: ${({ theme }) => theme.text};
-  opacity: ${OPACITY.MEDIUM};
-`
-
 export const Description = styled.p`
-  font-size: ${FONT_SIZES.BASE};
+  font-size: ${FONT_SIZES.SMALL};
   line-height: ${LINE_HEIGHTS.BASE};
   color: ${({ theme }) => theme.text};
   margin-top: ${SPACING.MEDIUM};

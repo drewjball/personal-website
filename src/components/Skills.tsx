@@ -14,7 +14,7 @@ import styled from "styled-components"
 
 const SkillsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
   gap: ${SPACING.MEDIUM};
   max-width: ${BREAKPOINTS.DESKTOP};
   margin: 0 auto;

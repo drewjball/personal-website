@@ -29,16 +29,11 @@ const ThemeToggle = styled.button`
   border-radius: ${BORDER_RADIUS.SMALL};
   width: 40px;
   height: 40px;
-  outline: none;
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
     color: ${({ theme }) => theme.accent};
     transform: translateY(-1px);
-  }
-
-  &:focus {
-    outline: none;
   }
 
   svg {

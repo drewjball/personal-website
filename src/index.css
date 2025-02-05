@@ -26,11 +26,7 @@ body {
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 h1 {
@@ -49,12 +45,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+.g-recaptcha {
+  width: 100% !important; /* Makes it responsive */
+  height: 30px !important; /* Default height for reCAPTCHA, adjust if necessary */
+  display: block;
 }
 
 @media (prefers-color-scheme: light) {

@@ -118,7 +118,7 @@ const HighlightCard = styled.div<{ isExpanded?: boolean }>`
 `
 
 const Paragraph = styled.p`
-  font-size: ${FONT_SIZES.MEDIUM};
+  font-size: ${FONT_SIZES.SMALL};
   line-height: ${LINE_HEIGHTS.LARGE};
   color: ${({ theme }) => theme.text};
   margin-bottom: ${SPACING.MEDIUM};
@@ -132,7 +132,7 @@ const List = styled.ul`
 
   li {
     color: ${({ theme }) => theme.text};
-    font-size: ${FONT_SIZES.MEDIUM};
+    font-size: ${FONT_SIZES.SMALL};
     line-height: ${LINE_HEIGHTS.LARGE};
     margin-bottom: ${SPACING.SMALL};
     opacity: ${OPACITY.HIGH};
@@ -369,15 +369,16 @@ export function About() {
             <Paragraph>
               I'm always looking ahead. My short-term goal is to become a
               well-rounded full-stack engineer with expertise across frontend,
-              backend, and DevOps. Long term, I see two paths:
+              backend, and DevOps. Long term, I see myself taking one of the
+              following paths:
             </Paragraph>
-            <List className="numbered">
+            <List>
               <li>
-                1. Launching my own SaaS product or consulting agency—leveraging
-                my skills to build something from the ground up.
+                Launching my own SaaS product or consulting agency—leveraging my
+                skills to build something from the ground up.
               </li>
               <li>
-                2. Stepping into tech leadership, whether as a CTO or department
+                Stepping into tech leadership, whether as a CTO or department
                 head, helping shape the future of engineering teams.
               </li>
             </List>

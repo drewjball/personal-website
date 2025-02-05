@@ -19,11 +19,14 @@ import {
   FiUser,
   FiYoutube,
 } from "react-icons/fi"
+import { PageSubtitle, PageTitle } from "./shared/SharedStyles"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useRef, useState } from "react"
 
+import ReCAPTCHA from "react-google-recaptcha"
 import { RiTwitterXFill } from "react-icons/ri"
+import emailjs from "@emailjs/browser"
 import styled from "styled-components"
-import { useState } from "react"
 import { useThemeStore } from "../store/themeStore"
 
 interface IFormInputs {
@@ -60,21 +63,6 @@ const BackgroundDecoration = styled.div<{ isDarkMode: boolean }>`
   opacity: ${({ isDarkMode }) => (isDarkMode ? OPACITY.LOW : OPACITY.HIGH)};
 `
 
-const Title = styled.h1`
-  font-size: ${FONT_SIZES.XXXLARGE};
-  color: ${({ theme }) => theme.text};
-  margin-bottom: ${SPACING.LARGE};
-  text-align: center;
-`
-
-const Subtitle = styled.p`
-  font-size: ${FONT_SIZES.MEDIUM};
-  color: ${({ theme }) => theme.text};
-  margin-bottom: ${SPACING.LARGE};
-  text-align: center;
-  opacity: ${OPACITY.MEDIUM};
-`
-
 const Form = styled.form`
   display: grid;
   gap: ${SPACING.LARGE};
@@ -83,12 +71,23 @@ const Form = styled.form`
   border-radius: ${BORDER_RADIUS.MEDIUM};
   backdrop-filter: blur(10px);
   border: 1px solid ${({ theme }) => theme.border};
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    padding: ${SPACING.MEDIUM};
+    gap: ${SPACING.MEDIUM};
+    width: 100%;
+  }
 `
 
 const FormRow = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: ${SPACING.LARGE};
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    grid-template-columns: 1fr;
+    gap: ${SPACING.MEDIUM};
+  }
 `
 
 const FormGroup = styled.div`
@@ -96,12 +95,17 @@ const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 78px;
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    min-height: 70px;
+    width: 100%;
+  }
 `
 
 const Input = styled.input<{ hasError?: boolean }>`
   width: 100%;
   padding: ${SPACING.SMALL} ${SPACING.MEDIUM};
-  padding-left: ${SPACING.LARGE};
+  padding-left: ${SPACING.XLARGE};
   background: ${({ theme }) => theme.background};
   border: 1px solid
     ${({ theme, hasError }) => (hasError ? "red" : theme.border)};
@@ -110,8 +114,13 @@ const Input = styled.input<{ hasError?: boolean }>`
   font-size: ${FONT_SIZES.BASE};
   transition: all 0.2s;
 
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    padding: ${SPACING.XSMALL} ${SPACING.MEDIUM};
+    padding-left: ${SPACING.LARGE};
+    font-size: ${FONT_SIZES.SMALL};
+  }
+
   &:focus {
-    outline: none;
     border-color: ${({ theme }) => theme.accent};
     box-shadow: ${SHADOWS.MEDIUM};
   }
@@ -120,7 +129,7 @@ const Input = styled.input<{ hasError?: boolean }>`
 const TextArea = styled.textarea<{ hasError?: boolean }>`
   width: 100%;
   padding: ${SPACING.SMALL} ${SPACING.MEDIUM};
-  padding-left: ${SPACING.LARGE};
+  padding-left: ${SPACING.XLARGE};
   background: ${({ theme }) => theme.background};
   border: 1px solid
     ${({ theme, hasError }) => (hasError ? "red" : theme.border)};
@@ -131,8 +140,14 @@ const TextArea = styled.textarea<{ hasError?: boolean }>`
   resize: vertical;
   transition: all 0.2s;
 
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    min-height: 120px;
+    padding: ${SPACING.XSMALL} ${SPACING.MEDIUM};
+    padding-left: ${SPACING.LARGE};
+    font-size: ${FONT_SIZES.SMALL};
+  }
+
   &:focus {
-    outline: none;
     border-color: ${({ theme }) => theme.accent};
     box-shadow: ${SHADOWS.MEDIUM};
   }
@@ -144,6 +159,13 @@ const Icon = styled.div`
   top: ${SPACING.SMALL};
   color: ${({ theme }) => theme.text};
   opacity: ${OPACITY.LOW};
+  margin-right: ${SPACING.SMALL};
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    top: ${SPACING.XSMALL};
+    left: ${SPACING.XSMALL};
+    font-size: ${FONT_SIZES.SMALL};
+  }
 `
 
 const MessageIcon = styled(Icon)`
@@ -164,7 +186,7 @@ const SubmitButton = styled.button`
   justify-content: center;
   gap: ${SPACING.SMALL};
   transition: ${TRANSITIONS.DEFAULT};
-  margin-top: ${SPACING.LARGE};
+  margin-top: ${SPACING.MEDIUM};
 
   &:hover {
     transform: translateY(-2px);
@@ -174,6 +196,10 @@ const SubmitButton = styled.button`
   &:disabled {
     opacity: ${OPACITY.MEDIUM};
     cursor: not-allowed;
+  }
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    margin-top: 0;
   }
 `
 
@@ -193,59 +219,63 @@ const ContactInfo = styled.div`
   backdrop-filter: blur(10px);
   border: 1px solid ${({ theme }) => theme.border};
 
-  @media (max-width: ${BREAKPOINTS.TABLET}) {
-    padding: ${SPACING.LARGE} ${SPACING.MEDIUM};
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    padding: ${SPACING.MEDIUM};
+    margin-top: ${SPACING.MEDIUM};
   }
 `
 
 const ContactInfoTitle = styled.h2`
   font-size: ${FONT_SIZES.XXXLARGE};
   color: ${({ theme }) => theme.text};
-  margin-bottom: ${SPACING.LARGE};
+  margin-bottom: ${SPACING.SMALL};
   text-align: center;
-  font-weight: ${FONT_WEIGHTS.BOLD};
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
     font-size: ${FONT_SIZES.XXLARGE};
-    margin-bottom: ${SPACING.LARGE};
   }
 `
 
 const ContactDetails = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: row;
   gap: ${SPACING.LARGE};
   justify-content: center;
   margin-bottom: ${SPACING.LARGE};
 
-  @media (max-width: ${BREAKPOINTS.TABLET}) {
-    grid-template-columns: 1fr;
+  @media (max-width: ${BREAKPOINTS.INTERMEDIATE}) {
+    flex-direction: column;
+    gap: ${SPACING.MEDIUM};
     max-width: ${BREAKPOINTS.MISC};
     margin-left: auto;
     margin-right: auto;
   }
 `
 
-const ContactItem = styled.a`
+const ContactItem = styled.button`
   display: flex;
   flex-direction: column;
   gap: ${SPACING.MEDIUM};
   padding: ${SPACING.LARGE};
-  background: ${({ theme }) => theme.background}15;
   border-radius: ${BORDER_RADIUS.MEDIUM};
   transition: ${TRANSITIONS.DEFAULT};
   text-decoration: none;
-  border: 1px solid transparent;
+  border: 1px solid ${({ theme }) => theme.accent}25;
+  background: none;
+  width: 100%;
+  cursor: pointer;
 
   &:hover {
-    background: ${({ theme }) => theme.background}25;
-    transform: translateY(-2px);
-    border-color: ${({ theme }) => theme.accent}40;
+    transform: translateY(2px);
     box-shadow: ${SHADOWS.MEDIUM};
   }
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
     padding: ${SPACING.MEDIUM};
+
+    &:hover {
+      transform: none;
+    }
   }
 `
 
@@ -303,8 +333,8 @@ const SocialLinksWrapper = styled.div`
   max-width: ${BREAKPOINTS.MISC};
   margin: 0 auto;
 
-  @media (max-width: ${BREAKPOINTS.TABLET}) {
-    gap: ${SPACING.MEDIUM};
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    gap: ${SPACING.SMALL};
   }
 `
 
@@ -340,9 +370,34 @@ const SocialLink = styled.a`
   }
 `
 
+const RecaptchaWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: ${SPACING.MEDIUM};
+  max-height: 76px;
+  max-width: 302px;
+
+  > div {
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: ${SHADOWS.SMALL};
+  }
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    transform: scale(0.75);
+    transform-origin: center;
+
+    margin: 0 -13px; // Compensate for scale
+  }
+`
+
 export function Contact() {
   const { isDarkMode } = useThemeStore()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+
   const {
     register,
     handleSubmit,
@@ -350,6 +405,11 @@ export function Contact() {
   } = useForm<IFormInputs>()
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
+    if (!recaptchaToken) {
+      alert("Please complete the reCAPTCHA")
+      return
+    }
+
     setIsSubmitting(true)
     try {
       const trimmedData = Object.fromEntries(
@@ -358,23 +418,56 @@ export function Contact() {
           typeof value === "string" ? value.trim() : value,
         ])
       )
-      console.log(trimmedData)
-      alert("Message sent successfully!")
+
+      console.log("Sending email with data:", {
+        ...trimmedData,
+        recaptchaToken: !!recaptchaToken,
+      })
+
+      const result = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: `${trimmedData.firstName} ${trimmedData.lastName}`,
+          from_email: trimmedData.email,
+          phone: trimmedData.phone || "Not provided",
+          message: trimmedData.message,
+          to_name: "Drew",
+          reply_to: trimmedData.email,
+          "g-recaptcha-response": recaptchaToken,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+
+      console.log("EmailJS response:", result)
+
+      if (result.status === 200) {
+        alert("Message sent successfully!")
+        recaptchaRef.current?.reset()
+        setRecaptchaToken(null)
+      } else {
+        throw new Error("Failed to send message")
+      }
     } catch (error) {
+      console.error("Detailed error:", error)
       alert("Failed to send message. Please try again.")
     }
     setIsSubmitting(false)
+  }
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token)
   }
 
   return (
     <ContactSection>
       <BackgroundDecoration isDarkMode={isDarkMode} />
       <ContactContainer>
-        <Title>Reach Out!</Title>
-        <Subtitle>
+        <PageTitle>Reach Out!</PageTitle>
+        <PageSubtitle>
           I'm always interested in hearing about new opportunities and
           connections.
-        </Subtitle>
+        </PageSubtitle>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <FormRow>
             <FormGroup>
@@ -476,23 +569,42 @@ export function Contact() {
               <ErrorMessage>{errors.message.message}</ErrorMessage>
             )}
           </FormGroup>
-          <SubmitButton type="submit" disabled={isSubmitting}>
-            <FiSend />
+          <RecaptchaWrapper>
+            <ReCAPTCHA
+              key={isDarkMode ? "dark" : "light"}
+              ref={recaptchaRef}
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+              onChange={handleRecaptchaChange}
+              theme={isDarkMode ? "dark" : "light"}
+              asyncScriptOnLoad={() => console.log("reCAPTCHA script loaded")}
+            />
+          </RecaptchaWrapper>
+          <SubmitButton
+            type="submit"
+            disabled={isSubmitting || !recaptchaToken}
+          >
             {isSubmitting ? "Sending..." : "Send Message"}
+            <FiSend />
           </SubmitButton>
         </Form>
 
         <ContactInfo>
           <ContactInfoTitle>Let's Connect</ContactInfoTitle>
           <ContactDetails>
-            <ContactItem href="tel:+14807340623">
+            <ContactItem
+              onClick={() => (window.location.href = "tel:+14807340623")}
+            >
               <ContactLabel>Phone</ContactLabel>
               <ContactValue>
                 <FiPhone />
                 <span>+1 (480) 734-0623</span>
               </ContactValue>
             </ContactItem>
-            <ContactItem href="mailto:drewjball@gmail.com">
+            <ContactItem
+              onClick={() =>
+                (window.location.href = "mailto:drewjball@gmail.com")
+              }
+            >
               <ContactLabel>Email</ContactLabel>
               <ContactValue>
                 <FiMail />

@@ -34,8 +34,8 @@ export const BORDER_RADIUS = {
 } as const
 
 export const TRANSITIONS = {
-  DEFAULT: "all 0.2s ease",
-  TRANSFORM: "transform 0.3s ease",
+  DEFAULT: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+  TRANSFORM: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
 } as const
 
 export const SHADOWS = {

@@ -12,22 +12,23 @@ const GlobalStyle = createGlobalStyle`
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.text};
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
   }
 
-  button, a {
-    &:focus {
-      outline: none;
-    }
+  /* Remove default focus styles */
+  *:focus {
+    outline: none;
+  }
+
+  /* Add focus styles only for keyboard navigation */
+  *:focus-visible {
+    outline: 1px solid ${({ theme }) => theme.accent};
   }
 
   * {
-    &:focus {
-      outline: none;
-    }
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
   }
 `
 

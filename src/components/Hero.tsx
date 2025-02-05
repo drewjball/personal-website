@@ -24,7 +24,7 @@ const HeroSection = styled.section`
 `
 
 const Content = styled.div`
-  max-width: 800px;
+  max-width: ${BREAKPOINTS.MISC};
   margin: 0 auto;
   text-align: center;
   position: relative;
@@ -65,20 +65,21 @@ const Description = styled.p`
   font-size: ${FONT_SIZES.MEDIUM};
   line-height: ${LINE_HEIGHTS.BASE};
   color: ${({ theme }) => theme.text};
-  margin: ${SPACING.MEDIUM} auto;
+  margin: 0 auto;
   max-width: ${BREAKPOINTS.TABLET};
   opacity: ${OPACITY.HIGH};
+  padding: 0 ${SPACING.SMALL} ${SPACING.SMALL};
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
-    font-size: ${FONT_SIZES.MEDIUM};
-    padding: 0 ${SPACING.MEDIUM};
+    padding: 0 ${SPACING.SMALL};
+    font-size: ${FONT_SIZES.SMALL};
   }
 `
 
 const CTAContainer = styled.div`
   display: flex;
   gap: ${SPACING.XSMALL};
-  margin-top: ${SPACING.MEDIUM};
+  margin-top: ${SPACING.LARGE};
   justify-content: center;
 `
 
@@ -90,20 +91,15 @@ const ButtonBase = styled.button`
   transition: ${TRANSITIONS.DEFAULT};
   box-shadow: ${SHADOWS.SMALL};
   border: none;
-  outline: none;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: ${SHADOWS.MEDIUM};
   }
 
-  &:focus {
-    outline: none;
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.accent};
-    outline-offset: 2px;
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    padding: ${SPACING.XSMALL} ${SPACING.XSMALL};
+    font-size: ${FONT_SIZES.SMALL};
   }
 `
 

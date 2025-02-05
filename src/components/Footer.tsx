@@ -25,7 +25,7 @@ const FooterContainer = styled.footer`
   background-color: ${({ theme }) => theme.glass};
   backdrop-filter: blur(10px);
   padding: ${SPACING.XLARGE} ${SPACING.LARGE};
-  margin-top: ${SPACING.SMALL};
+  margin-top: 0;
   border-top: 1px solid ${({ theme }) => theme.border};
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
