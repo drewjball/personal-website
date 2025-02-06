@@ -151,16 +151,12 @@ const FooterNav = styled.nav`
 `
 
 const handleDownload = async () => {
-  try {
-    const link = document.createElement("a")
-    link.href = resumePDF
-    link.download = "drew-ball-resume.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  } catch (error) {
-    console.error("Failed to download resume:", error)
-  }
+  const link = document.createElement("a")
+  link.href = resumePDF
+  link.download = "drew-ball-resume.pdf"
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 export function Footer() {

@@ -3,6 +3,7 @@ import {
   BREAKPOINTS,
   FONT_SIZES,
   FONT_WEIGHTS,
+  LINE_HEIGHTS,
   OPACITY,
   SHADOWS,
   SPACING,
@@ -51,7 +52,7 @@ const ContactContainer = styled.div`
   z-index: ${Z_INDEX.BASE};
 `
 
-const BackgroundDecoration = styled.div<{ isDarkMode: boolean }>`
+const BackgroundDecoration = styled.div<{ $isDarkMode: boolean }>`
   position: absolute;
   top: -50%;
   left: -20%;
@@ -60,7 +61,7 @@ const BackgroundDecoration = styled.div<{ isDarkMode: boolean }>`
   background: ${({ theme }) => theme.secondary};
   transform: rotate(35deg);
   z-index: ${Z_INDEX.BACKGROUND};
-  opacity: ${({ isDarkMode }) => (isDarkMode ? OPACITY.LOW : OPACITY.HIGH)};
+  opacity: ${({ $isDarkMode }) => ($isDarkMode ? OPACITY.LOW : OPACITY.HIGH)};
 `
 
 const Form = styled.form`
@@ -102,13 +103,13 @@ const FormGroup = styled.div`
   }
 `
 
-const Input = styled.input<{ hasError?: boolean }>`
+const Input = styled.input<{ $hasError?: boolean }>`
   width: 100%;
   padding: ${SPACING.SMALL} ${SPACING.MEDIUM};
   padding-left: ${SPACING.XLARGE};
   background: ${({ theme }) => theme.background};
   border: 1px solid
-    ${({ theme, hasError }) => (hasError ? "red" : theme.border)};
+    ${({ theme, $hasError }) => ($hasError ? "red" : theme.border)};
   border-radius: ${BORDER_RADIUS.SMALL};
   color: ${({ theme }) => theme.text};
   font-size: ${FONT_SIZES.BASE};
@@ -126,13 +127,13 @@ const Input = styled.input<{ hasError?: boolean }>`
   }
 `
 
-const TextArea = styled.textarea<{ hasError?: boolean }>`
+const TextArea = styled.textarea<{ $hasError?: boolean }>`
   width: 100%;
   padding: ${SPACING.SMALL} ${SPACING.MEDIUM};
   padding-left: ${SPACING.XLARGE};
   background: ${({ theme }) => theme.background};
   border: 1px solid
-    ${({ theme, hasError }) => (hasError ? "red" : theme.border)};
+    ${({ theme, $hasError }) => ($hasError ? "red" : theme.border)};
   border-radius: ${BORDER_RADIUS.SMALL};
   color: ${({ theme }) => theme.text};
   font-size: ${FONT_SIZES.BASE};
@@ -392,9 +393,85 @@ const RecaptchaWrapper = styled.div`
   }
 `
 
+const SuccessContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${SPACING.LARGE};
+  background: ${({ theme }) => theme.glass};
+  padding: ${SPACING.XLARGE};
+  border-radius: ${BORDER_RADIUS.MEDIUM};
+  backdrop-filter: blur(10px);
+  border: 1px solid ${({ theme }) => theme.border};
+  text-align: center;
+  max-width: ${BREAKPOINTS.MISC};
+  margin: 0 auto;
+
+  @media (max-width: ${BREAKPOINTS.MOBILE}) {
+    padding: ${SPACING.LARGE};
+    gap: ${SPACING.MEDIUM};
+  }
+`
+
+const SuccessTitle = styled.h2`
+  font-size: ${FONT_SIZES.XXLARGE};
+  color: ${({ theme }) => theme.text};
+  margin-bottom: ${SPACING.SMALL};
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    font-size: ${FONT_SIZES.XLARGE};
+  }
+`
+
+const SuccessMessage = styled.p`
+  font-size: ${FONT_SIZES.MEDIUM};
+  color: ${({ theme }) => theme.text};
+  opacity: ${OPACITY.HIGH};
+  line-height: ${LINE_HEIGHTS.LARGE};
+  max-width: 600px;
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    font-size: ${FONT_SIZES.BASE};
+  }
+`
+
+const ResetButton = styled.button`
+  background: ${({ theme }) => theme.accent};
+  color: ${({ theme }) => theme.background};
+  border: none;
+  border-radius: ${BORDER_RADIUS.SMALL};
+  padding: ${SPACING.MEDIUM} ${SPACING.LARGE};
+  font-size: ${FONT_SIZES.BASE};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${SPACING.SMALL};
+  transition: ${TRANSITIONS.DEFAULT};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: ${SHADOWS.MEDIUM};
+  }
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    padding: ${SPACING.XSMALL} ${SPACING.XSMALL};
+    font-size: ${FONT_SIZES.SMALL};
+  }
+`
+
+const FormError = styled.div`
+  color: red;
+  font-size: ${FONT_SIZES.SMALL};
+  text-align: center;
+  margin-top: ${SPACING.SMALL};
+`
+
 export function Contact() {
   const { isDarkMode } = useThemeStore()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const recaptchaRef = useRef<ReCAPTCHA>(null)
 
@@ -402,15 +479,25 @@ export function Contact() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<IFormInputs>()
+
+  const handleReset = () => {
+    setIsSuccess(false)
+    reset()
+    recaptchaRef.current?.reset()
+    setRecaptchaToken(null)
+  }
 
   const onSubmit: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
     if (!recaptchaToken) {
-      alert("Please complete the reCAPTCHA")
+      setSubmitError("Please complete the reCAPTCHA")
       return
     }
 
     setIsSubmitting(true)
+    setSubmitError(null)
+
     try {
       const trimmedData = Object.fromEntries(
         Object.entries(data).map(([key, value]) => [
@@ -418,11 +505,6 @@ export function Contact() {
           typeof value === "string" ? value.trim() : value,
         ])
       )
-
-      console.log("Sending email with data:", {
-        ...trimmedData,
-        recaptchaToken: !!recaptchaToken,
-      })
 
       const result = await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -439,18 +521,13 @@ export function Contact() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       )
 
-      console.log("EmailJS response:", result)
-
       if (result.status === 200) {
-        alert("Message sent successfully!")
+        setIsSuccess(true)
         recaptchaRef.current?.reset()
         setRecaptchaToken(null)
-      } else {
-        throw new Error("Failed to send message")
       }
     } catch (error) {
-      console.error("Detailed error:", error)
-      alert("Failed to send message. Please try again.")
+      setSubmitError("Failed to send message. Please try again.")
     }
     setIsSubmitting(false)
   }
@@ -461,133 +538,150 @@ export function Contact() {
 
   return (
     <ContactSection>
-      <BackgroundDecoration isDarkMode={isDarkMode} />
+      <BackgroundDecoration $isDarkMode={isDarkMode} />
       <ContactContainer>
         <PageTitle>Reach Out!</PageTitle>
         <PageSubtitle>
           I'm always interested in hearing about new opportunities and
           connections.
         </PageSubtitle>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormRow>
-            <FormGroup>
-              <Icon>
-                <FiUser />
-              </Icon>
-              <Input
-                placeholder="First Name *"
-                {...register("firstName", {
-                  required: "First name is required",
-                  minLength: { value: 2, message: "Name is too short" },
-                  validate: (value) =>
-                    value.trim() !== "" || "First name cannot be empty",
-                })}
-                hasError={!!errors.firstName}
-              />
-              {errors.firstName && (
-                <ErrorMessage>{errors.firstName.message}</ErrorMessage>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Icon>
-                <FiUser />
-              </Icon>
-              <Input
-                placeholder="Last Name *"
-                {...register("lastName", {
-                  required: "Last name is required",
-                  minLength: { value: 2, message: "Name is too short" },
-                  validate: (value) =>
-                    value.trim() !== "" || "Last name cannot be empty",
-                })}
-                hasError={!!errors.lastName}
-              />
-              {errors.lastName && (
-                <ErrorMessage>{errors.lastName.message}</ErrorMessage>
-              )}
-            </FormGroup>
-          </FormRow>
-          <FormRow>
-            <FormGroup>
-              <Icon>
-                <FiMail />
-              </Icon>
-              <Input
-                type="email"
-                placeholder="Email *"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                  validate: (value) =>
-                    value.trim() !== "" || "Email cannot be empty",
-                })}
-                hasError={!!errors.email}
-              />
-              {errors.email && (
-                <ErrorMessage>{errors.email.message}</ErrorMessage>
-              )}
-            </FormGroup>
-            <FormGroup>
-              <Icon>
-                <FiPhone />
-              </Icon>
-              <Input
-                type="tel"
-                placeholder="Phone (optional)"
-                {...register("phone", {
-                  pattern: {
-                    value:
-                      /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-                    message: "Invalid phone number",
-                  },
-                })}
-                hasError={!!errors.phone}
-              />
-              {errors.phone && (
-                <ErrorMessage>{errors.phone.message}</ErrorMessage>
-              )}
-            </FormGroup>
-          </FormRow>
-          <FormGroup>
-            <MessageIcon>
-              <FiMail />
-            </MessageIcon>
-            <TextArea
-              placeholder="Your Message *"
-              {...register("message", {
-                required: "Message is required",
-                minLength: { value: 10, message: "Message is too short" },
-                validate: (value) =>
-                  value.trim() !== "" || "Message cannot be empty",
-              })}
-              hasError={!!errors.message}
-            />
-            {errors.message && (
-              <ErrorMessage>{errors.message.message}</ErrorMessage>
-            )}
-          </FormGroup>
-          <RecaptchaWrapper>
-            <ReCAPTCHA
-              key={isDarkMode ? "dark" : "light"}
-              ref={recaptchaRef}
-              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-              onChange={handleRecaptchaChange}
-              theme={isDarkMode ? "dark" : "light"}
-              asyncScriptOnLoad={() => console.log("reCAPTCHA script loaded")}
-            />
-          </RecaptchaWrapper>
-          <SubmitButton
-            type="submit"
-            disabled={isSubmitting || !recaptchaToken}
-          >
-            {isSubmitting ? "Sending..." : "Send Message"}
-            <FiSend />
-          </SubmitButton>
-        </Form>
 
+        {isSuccess ? (
+          <SuccessContainer>
+            <SuccessTitle>Thank You!</SuccessTitle>
+            <SuccessMessage>
+              Thanks for reaching out! I'll be sure to get back to you as soon
+              as possible. I typically respond within 24-48 hours, but feel free
+              to reach out again if you haven't heard from me using one of the
+              items below.
+            </SuccessMessage>
+            <ResetButton onClick={handleReset}>
+              Send Another Message
+            </ResetButton>
+          </SuccessContainer>
+        ) : (
+          <>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <FormRow>
+                <FormGroup>
+                  <Icon>
+                    <FiUser />
+                  </Icon>
+                  <Input
+                    placeholder="First Name *"
+                    {...register("firstName", {
+                      required: "First name is required",
+                      minLength: { value: 2, message: "Name is too short" },
+                      validate: (value) =>
+                        value.trim() !== "" || "First name cannot be empty",
+                    })}
+                    $hasError={!!errors.firstName}
+                  />
+                  {errors.firstName && (
+                    <ErrorMessage>{errors.firstName.message}</ErrorMessage>
+                  )}
+                </FormGroup>
+                <FormGroup>
+                  <Icon>
+                    <FiUser />
+                  </Icon>
+                  <Input
+                    placeholder="Last Name *"
+                    {...register("lastName", {
+                      required: "Last name is required",
+                      minLength: { value: 2, message: "Name is too short" },
+                      validate: (value) =>
+                        value.trim() !== "" || "Last name cannot be empty",
+                    })}
+                    $hasError={!!errors.lastName}
+                  />
+                  {errors.lastName && (
+                    <ErrorMessage>{errors.lastName.message}</ErrorMessage>
+                  )}
+                </FormGroup>
+              </FormRow>
+              <FormRow>
+                <FormGroup>
+                  <Icon>
+                    <FiMail />
+                  </Icon>
+                  <Input
+                    type="email"
+                    placeholder="Email *"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address",
+                      },
+                      validate: (value) =>
+                        value.trim() !== "" || "Email cannot be empty",
+                    })}
+                    $hasError={!!errors.email}
+                  />
+                  {errors.email && (
+                    <ErrorMessage>{errors.email.message}</ErrorMessage>
+                  )}
+                </FormGroup>
+                <FormGroup>
+                  <Icon>
+                    <FiPhone />
+                  </Icon>
+                  <Input
+                    type="tel"
+                    placeholder="Phone (optional)"
+                    {...register("phone", {
+                      pattern: {
+                        value:
+                          /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+                        message: "Invalid phone number",
+                      },
+                    })}
+                    $hasError={!!errors.phone}
+                  />
+                  {errors.phone && (
+                    <ErrorMessage>{errors.phone.message}</ErrorMessage>
+                  )}
+                </FormGroup>
+              </FormRow>
+              <FormGroup>
+                <MessageIcon>
+                  <FiMail />
+                </MessageIcon>
+                <TextArea
+                  placeholder="Your Message *"
+                  {...register("message", {
+                    required: "Message is required",
+                    minLength: { value: 10, message: "Message is too short" },
+                    validate: (value) =>
+                      value.trim() !== "" || "Message cannot be empty",
+                  })}
+                  $hasError={!!errors.message}
+                />
+                {errors.message && (
+                  <ErrorMessage>{errors.message.message}</ErrorMessage>
+                )}
+              </FormGroup>
+              <RecaptchaWrapper>
+                <ReCAPTCHA
+                  key={isDarkMode ? "dark" : "light"}
+                  ref={recaptchaRef}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                  onChange={handleRecaptchaChange}
+                  theme={isDarkMode ? "dark" : "light"}
+                />
+              </RecaptchaWrapper>
+              <SubmitButton
+                type="submit"
+                disabled={isSubmitting || !recaptchaToken}
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
+                <FiSend />
+              </SubmitButton>
+              {submitError && <FormError>{submitError}</FormError>}
+            </Form>
+          </>
+        )}
         <ContactInfo>
           <ContactInfoTitle>Let's Connect</ContactInfoTitle>
           <ContactDetails>

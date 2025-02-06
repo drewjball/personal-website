@@ -19,19 +19,20 @@ import lightLogo from "../assets/db-logo-white.png"
 import styled from "styled-components"
 import { useThemeStore } from "../store/themeStore"
 
-const Nav = styled.nav<{ isOpen: boolean }>`
+const Nav = styled.nav<{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: ${({ theme, isOpen }) =>
-    isOpen ? theme.background : theme.glass};
-  backdrop-filter: ${({ isOpen }) => (isOpen ? "none" : "blur(10px)")};
+  background-color: ${({ theme, $isOpen }) =>
+    $isOpen ? theme.background : theme.glass};
+  backdrop-filter: ${({ $isOpen }) => ($isOpen ? "none" : "blur(10px)")};
   z-index: ${Z_INDEX.NAVIGATION};
   padding: ${SPACING.MEDIUM} ${SPACING.LARGE};
-  box-shadow: ${({ isOpen }) => (isOpen ? "none" : SHADOWS.MEDIUM)};
+  box-shadow: ${({ $isOpen }) => ($isOpen ? "none" : SHADOWS.MEDIUM)};
   transition: ${TRANSITIONS.DEFAULT};
-  -webkit-backdrop-filter: ${({ isOpen }) => (isOpen ? "none" : "blur(10px)")};
+  -webkit-backdrop-filter: ${({ $isOpen }) =>
+    $isOpen ? "none" : "blur(10px)"};
 `
 
 const NavContainer = styled.div`
@@ -62,19 +63,19 @@ const Logo = styled(Link)`
   }
 `
 
-const LogoImage = styled.img<{ isHover?: boolean }>`
+const LogoImage = styled.img<{ $isHover?: boolean }>`
   height: 100%;
   width: auto;
   position: absolute;
   transition: opacity 0.3s ease; // One off style
-  opacity: ${({ isHover }) => (isHover ? OPACITY.FULL : OPACITY.FULL)};
+  opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : OPACITY.FULL)};
 `
 
 const HoverLogoImage = styled(LogoImage)`
-  opacity: ${({ isHover }) => (isHover ? OPACITY.FULL : 0)};
+  opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : 0)};
 `
 
-const NavList = styled.ul<{ isOpen: boolean }>`
+const NavList = styled.ul<{ $isOpen: boolean }>`
   list-style: none;
   margin: 0;
   padding: 0;
@@ -86,11 +87,11 @@ const NavList = styled.ul<{ isOpen: boolean }>`
   }
 `
 
-const MobileMenu = styled.div<{ isOpen: boolean }>`
+const MobileMenu = styled.div<{ $isOpen: boolean }>`
   display: none;
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
-    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
     position: fixed;
     top: 75px;
     left: 0;
@@ -119,7 +120,7 @@ const NavLink = styled(Link)`
   }
 `
 
-const MenuButton = styled.button<{ isOpen: boolean }>`
+const MenuButton = styled.button<{ $isOpen: boolean }>`
   background: none;
   border: none;
   padding: ${SPACING.XSMALL};
@@ -150,17 +151,17 @@ const MenuButton = styled.button<{ isOpen: boolean }>`
     transition: ${TRANSITIONS.DEFAULT};
 
     &:first-child {
-      transform: ${({ isOpen }) =>
-        isOpen ? "rotate(45deg) translate(5px, 5px)" : "rotate(0)"};
+      transform: ${({ $isOpen }) =>
+        $isOpen ? "rotate(45deg) translate(5px, 5px)" : "rotate(0)"};
     }
 
     &:nth-child(2) {
-      opacity: ${({ isOpen }) => (isOpen ? 0 : 1)};
+      opacity: ${({ $isOpen }) => ($isOpen ? 0 : 1)};
     }
 
     &:last-child {
-      transform: ${({ isOpen }) =>
-        isOpen ? "rotate(-45deg) translate(5px, -5px)" : "rotate(0)"};
+      transform: ${({ $isOpen }) =>
+        $isOpen ? "rotate(-45deg) translate(5px, -5px)" : "rotate(0)"};
     }
   }
 `
@@ -214,7 +215,7 @@ export function Navigation() {
   }
 
   return (
-    <Nav isOpen={isOpen}>
+    <Nav $isOpen={isOpen}>
       <NavContainer>
         <Logo
           to="/"
@@ -225,16 +226,16 @@ export function Navigation() {
           <LogoImage
             src={isDarkMode ? lightLogo : darkLogo}
             alt="Drew Ball Logo"
-            isHover={isHovered}
+            $isHover={isHovered}
           />
           <HoverLogoImage
             src={hoverLogo}
             alt="Drew Ball Logo Hover"
-            isHover={isHovered}
+            $isHover={isHovered}
           />
         </Logo>
         <NavGroup>
-          <NavList isOpen={isOpen}>
+          <NavList $isOpen={isOpen}>
             <li>
               <NavLink to="/" onClick={handleLinkClick}>
                 Home
@@ -270,7 +271,7 @@ export function Navigation() {
             {isDarkMode ? <FiSun /> : <FiMoon />}
           </ThemeToggle>
           <MenuButton
-            isOpen={isOpen}
+            $isOpen={isOpen}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -280,7 +281,7 @@ export function Navigation() {
           </MenuButton>
         </NavGroup>
       </NavContainer>
-      <MobileMenu isOpen={isOpen}>
+      <MobileMenu $isOpen={isOpen}>
         <NavLink to="/" onClick={handleLinkClick}>
           Home
         </NavLink>

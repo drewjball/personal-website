@@ -120,7 +120,7 @@ const SecondaryButton = styled(ButtonBase)`
 `
 
 const BackgroundDecoration = styled.div<{
-  isDarkMode: boolean
+  $isDarkMode: boolean
 }>`
   position: absolute;
   top: -50%;
@@ -130,7 +130,7 @@ const BackgroundDecoration = styled.div<{
   background: ${({ theme }) => theme.secondary};
   transform: rotate(-35deg);
   z-index: ${Z_INDEX.BACKGROUND};
-  opacity: ${({ isDarkMode }) => (isDarkMode ? 0.5 : 1.5)};
+  opacity: ${({ $isDarkMode }) => ($isDarkMode ? 0.5 : 1.5)};
 `
 
 export function Hero() {
@@ -148,7 +148,7 @@ export function Hero() {
 
   return (
     <HeroSection>
-      <BackgroundDecoration isDarkMode={isDarkMode} />
+      <BackgroundDecoration $isDarkMode={isDarkMode} />
       <Content>
         <Greeting>Hi, I'm</Greeting>
         <Title>Drew Ball</Title>

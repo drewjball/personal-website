@@ -68,8 +68,8 @@ const SkillItem = styled.li`
 
 export function Skills() {
   return (
-    <Section secondary>
-      <SectionTitle align="center" isHomePage={true}>
+    <Section $secondary>
+      <SectionTitle $align="center" $isHomePage={true}>
         <FiTool /> Technical Expertise
       </SectionTitle>
       <SkillsGrid>

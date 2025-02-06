@@ -9,15 +9,15 @@ import {
 import styled from "styled-components"
 
 interface AlignProps {
-  align?: "left" | "center" | "right"
-  isHomePage?: boolean
+  $align?: "left" | "center" | "right"
+  $isHomePage?: boolean
 }
 
 export const PageTitle = styled.h1<AlignProps>`
   font-size: ${FONT_SIZES.XXXLARGE};
   color: ${({ theme }) => theme.text};
   margin-bottom: ${SPACING.SMALL};
-  text-align: ${({ align = "center" }) => align};
+  text-align: ${({ $align = "center" }) => $align};
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
     font-size: ${FONT_SIZES.XXLARGE};
@@ -28,7 +28,7 @@ export const PageSubtitle = styled.p<AlignProps>`
   font-size: ${FONT_SIZES.MEDIUM};
   color: ${({ theme }) => theme.text};
   margin-bottom: ${SPACING.XXLARGE};
-  text-align: ${({ align = "center" }) => align};
+  text-align: ${({ $align = "center" }) => $align};
   opacity: ${OPACITY.MEDIUM};
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
@@ -37,24 +37,24 @@ export const PageSubtitle = styled.p<AlignProps>`
   }
 `
 
-export const Section = styled.section<{ secondary?: boolean }>`
+export const Section = styled.section<{ $secondary?: boolean }>`
   padding: ${SPACING.XLARGE} ${SPACING.LARGE};
-  background-color: ${({ theme, secondary }) =>
-    secondary ? theme.secondary : theme.background};
+  background-color: ${({ theme, $secondary }) =>
+    $secondary ? theme.secondary : theme.background};
 `
 
-export const SectionTitle = styled.h3<AlignProps>`
+export const SectionTitle = styled.h3<AlignProps & { $isHomePage?: boolean }>`
   font-size: ${FONT_SIZES.XLARGE};
   color: ${({ theme }) => theme.primary};
-  margin: ${({ isHomePage }) => (isHomePage ? "0" : SPACING.LARGE)} 0
+  margin: ${({ $isHomePage }) => ($isHomePage ? "0" : SPACING.LARGE)} 0
     ${SPACING.XLARGE};
   display: flex;
   align-items: center;
   gap: ${SPACING.SMALL};
-  justify-content: ${({ align = "left" }) =>
-    align === "center"
+  justify-content: ${({ $align = "left" }) =>
+    $align === "center"
       ? "center"
-      : align === "right"
+      : $align === "right"
       ? "flex-end"
       : "flex-start"};
 

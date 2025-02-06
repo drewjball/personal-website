@@ -42,8 +42,8 @@ export function Education() {
   }
 
   return (
-    <Section secondary>
-      <SectionTitle align="center" isHomePage={true}>
+    <Section $secondary>
+      <SectionTitle $align="center" $isHomePage={true}>
         <FiBook /> Education
       </SectionTitle>
       <Grid>
@@ -73,7 +73,7 @@ export function Education() {
                 </li>
                 <li>
                   <FiCheck />
-                  Certifications in HTML5, CSS, Bootstrap, and JS
+                  Certifications in HTML5, CSS, Bootstrap, and JavaScript
                 </li>
               </Achievements>
             </>

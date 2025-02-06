@@ -11,10 +11,10 @@ import {
 import { FiChevronDown } from "react-icons/fi"
 import styled from "styled-components"
 
-const CardWrapper = styled.div<{ secondary?: boolean }>`
+const CardWrapper = styled.div<{ $secondary?: boolean }>`
   padding: ${SPACING.LARGE};
-  background-color: ${({ theme, secondary }) =>
-    secondary ? theme.secondary : theme.background};
+  background-color: ${({ theme, $secondary }) =>
+    $secondary ? theme.secondary : theme.background};
   border-radius: ${BORDER_RADIUS.LARGE};
   box-shadow: ${SHADOWS.MEDIUM};
   transition: ${TRANSITIONS.TRANSFORM};
@@ -37,7 +37,7 @@ const Header = styled.div`
   }
 `
 
-const ExpandButton = styled.button<{ isExpanded: boolean }>`
+const ExpandButton = styled.button<{ $isExpanded: boolean }>`
   background: none;
   border: none;
   color: ${({ theme }) => theme.accent};
@@ -53,15 +53,15 @@ const ExpandButton = styled.button<{ isExpanded: boolean }>`
   }
 `
 
-const ChevronIcon = styled(FiChevronDown)<{ isExpanded: boolean }>`
-  transform: rotate(${({ isExpanded }) => (isExpanded ? "180deg" : "0")});
+const ChevronIcon = styled(FiChevronDown)<{ $isExpanded: boolean }>`
+  transform: rotate(${({ $isExpanded }) => ($isExpanded ? "180deg" : "0")});
   transition: ${TRANSITIONS.DEFAULT};
 `
 
-const Content = styled.div<{ isExpanded: boolean }>`
-  max-height: ${({ isExpanded }) => (isExpanded ? "none" : "0")};
+const Content = styled.div<{ $isExpanded: boolean }>`
+  max-height: ${({ $isExpanded }) => ($isExpanded ? "none" : "0")};
   overflow: hidden;
-  opacity: ${({ isExpanded }) => (isExpanded ? "1" : "0")};
+  opacity: ${({ $isExpanded }) => ($isExpanded ? "1" : "0")};
 
   p:first-child {
     margin-top: ${SPACING.SMALL};
@@ -88,7 +88,7 @@ export const CollapsibleCard = ({
   ariaLabel,
 }: CollapsibleCardProps) => (
   <CardWrapper
-    secondary={secondary}
+    $secondary={secondary}
     role="region"
     aria-labelledby={`${id}-header`}
   >
@@ -99,11 +99,11 @@ export const CollapsibleCard = ({
         aria-label={ariaLabel || "Toggle section"}
         aria-expanded={isExpanded}
         type="button"
-        isExpanded={isExpanded}
+        $isExpanded={isExpanded}
       >
-        <ChevronIcon isExpanded={isExpanded} aria-hidden="true" />
+        <ChevronIcon $isExpanded={isExpanded} aria-hidden="true" />
       </ExpandButton>
     </Header>
-    <Content isExpanded={isExpanded}>{description}</Content>
+    <Content $isExpanded={isExpanded}>{description}</Content>
   </CardWrapper>
 )

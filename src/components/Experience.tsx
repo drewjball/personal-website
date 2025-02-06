@@ -19,7 +19,7 @@ export function Experience() {
 
   return (
     <Section>
-      <SectionTitle align="center" isHomePage={true}>
+      <SectionTitle $align="center" $isHomePage={true}>
         <FiBriefcase /> Professional Experience
       </SectionTitle>
       <Grid>

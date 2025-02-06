@@ -44,7 +44,7 @@ const ContentWrapper = styled.div`
   will-change: transform;
 `
 
-const BackgroundDecoration = styled.div<{ isDarkMode: boolean }>`
+const BackgroundDecoration = styled.div<{ $isDarkMode: boolean }>`
   position: absolute;
   top: -50%;
   right: -20%;
@@ -53,7 +53,7 @@ const BackgroundDecoration = styled.div<{ isDarkMode: boolean }>`
   background: ${({ theme }) => theme.secondary};
   transform: rotate(-35deg);
   z-index: ${Z_INDEX.BACKGROUND};
-  opacity: ${({ isDarkMode }) => (isDarkMode ? 0.5 : 1.5)};
+  opacity: ${({ $isDarkMode }) => ($isDarkMode ? 0.5 : 1.5)};
 `
 
 const ReadMoreButton = styled.button`
@@ -70,14 +70,14 @@ const ReadMoreButton = styled.button`
   }
 `
 
-const CardContent = styled.div<{ isExpanded: boolean }>`
+const CardContent = styled.div<{ $isExpanded: boolean }>`
   @media (max-width: ${BREAKPOINTS.TABLET}) {
-    max-height: ${({ isExpanded }) => (isExpanded ? "none" : "150px")};
+    max-height: ${({ $isExpanded }) => ($isExpanded ? "none" : "150px")};
     overflow: hidden;
     position: relative;
 
-    ${({ isExpanded, theme }) =>
-      !isExpanded &&
+    ${({ $isExpanded, theme }) =>
+      !$isExpanded &&
       `
       &::after {
         content: '';
@@ -90,9 +90,13 @@ const CardContent = styled.div<{ isExpanded: boolean }>`
       }
     `}
   }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 `
 
-const HighlightCard = styled.div<{ isExpanded?: boolean }>`
+const HighlightCard = styled.div<{ $isExpanded?: boolean }>`
   background: ${({ theme }) => theme.glass};
   border-radius: ${BORDER_RADIUS.LARGE};
   padding: ${SPACING.LARGE};
@@ -117,11 +121,12 @@ const HighlightCard = styled.div<{ isExpanded?: boolean }>`
   }
 `
 
-const Paragraph = styled.p`
+const Paragraph = styled.p<{ $isLetsConnect?: boolean }>`
   font-size: ${FONT_SIZES.SMALL};
   line-height: ${LINE_HEIGHTS.LARGE};
   color: ${({ theme }) => theme.text};
-  margin-bottom: ${SPACING.MEDIUM};
+  margin-bottom: ${({ $isLetsConnect }) =>
+    $isLetsConnect ? 0 : SPACING.MEDIUM};
   opacity: ${OPACITY.HIGH};
 `
 
@@ -179,7 +184,7 @@ interface HighlightCardSectionProps {
   id: string
   icon: React.ComponentType<{ size?: number }>
   children: React.ReactNode
-  isExpanded: boolean
+  $isExpanded: boolean
 }
 
 const HighlightCardSection = memo(
@@ -188,13 +193,13 @@ const HighlightCardSection = memo(
     id,
     icon: Icon,
     children,
-    isExpanded,
+    $isExpanded,
   }: HighlightCardSectionProps) => (
     <>
       <SectionTitle>
         <Icon /> {title}
       </SectionTitle>
-      <HighlightCard id={id} isExpanded={isExpanded}>
+      <HighlightCard id={id} $isExpanded={$isExpanded}>
         {children}
       </HighlightCard>
     </>
@@ -228,7 +233,7 @@ export function About() {
 
   return (
     <AboutSection>
-      <BackgroundDecoration isDarkMode={isDarkMode} />
+      <BackgroundDecoration $isDarkMode={isDarkMode} />
       <ContentWrapper>
         <PageTitle>About Me</PageTitle>
         <PageSubtitle>
@@ -239,9 +244,9 @@ export function About() {
           title="From Curiosity to Code"
           id="curiosity"
           icon={FiCode}
-          isExpanded={expandedCards["curiosity"]}
+          $isExpanded={expandedCards["curiosity"]}
         >
-          <CardContent isExpanded={expandedCards["curiosity"]}>
+          <CardContent $isExpanded={expandedCards["curiosity"]}>
             <Paragraph>
               My journey into technology started at a young age. Growing up, I
               was always surrounded by it—my dad, an SEO specialist, ran his own
@@ -271,9 +276,9 @@ export function About() {
           title="What I Do"
           id="whatIDo"
           icon={FiCpu}
-          isExpanded={expandedCards["whatIDo"]}
+          $isExpanded={expandedCards["whatIDo"]}
         >
-          <CardContent isExpanded={expandedCards["whatIDo"]}>
+          <CardContent $isExpanded={expandedCards["whatIDo"]}>
             <Paragraph>
               Whether it's freelance websites, ecommerce platforms, or
               large-scale government applications, I take pride in writing
@@ -302,9 +307,9 @@ export function About() {
           title="My Problem-Solving Philosophy"
           id="problemSolving"
           icon={FiBookOpen}
-          isExpanded={expandedCards["problemSolving"]}
+          $isExpanded={expandedCards["problemSolving"]}
         >
-          <CardContent isExpanded={expandedCards["problemSolving"]}>
+          <CardContent $isExpanded={expandedCards["problemSolving"]}>
             <Paragraph>
               Rather than getting lost in complexity, I approach each challenge
               with a structured methodology:
@@ -327,9 +332,9 @@ export function About() {
           title="Industries & Impact"
           id="industries"
           icon={FiTarget}
-          isExpanded={expandedCards["industries"]}
+          $isExpanded={expandedCards["industries"]}
         >
-          <CardContent isExpanded={expandedCards["industries"]}>
+          <CardContent $isExpanded={expandedCards["industries"]}>
             <Paragraph>
               I've had the opportunity to work on a diverse range of projects,
               from small business websites to enterprise-level government
@@ -363,9 +368,9 @@ export function About() {
           title="Vision & Goals"
           id="vision"
           icon={FiTrendingUp}
-          isExpanded={expandedCards["vision"]}
+          $isExpanded={expandedCards["vision"]}
         >
-          <CardContent isExpanded={expandedCards["vision"]}>
+          <CardContent $isExpanded={expandedCards["vision"]}>
             <Paragraph>
               I'm always looking ahead. My short-term goal is to become a
               well-rounded full-stack engineer with expertise across frontend,
@@ -392,9 +397,9 @@ export function About() {
           title="Why AI is a Game-Changer"
           id="ai"
           icon={FiZap}
-          isExpanded={expandedCards["ai"]}
+          $isExpanded={expandedCards["ai"]}
         >
-          <CardContent isExpanded={expandedCards["ai"]}>
+          <CardContent $isExpanded={expandedCards["ai"]}>
             <Paragraph>
               The landscape of software development is rapidly evolving, and AI
               is at the forefront of this transformation:
@@ -418,9 +423,9 @@ export function About() {
           title="Beyond the Screen"
           id="beyondScreen"
           icon={FiUserPlus}
-          isExpanded={expandedCards["beyondScreen"]}
+          $isExpanded={expandedCards["beyondScreen"]}
         >
-          <CardContent isExpanded={expandedCards["beyondScreen"]}>
+          <CardContent $isExpanded={expandedCards["beyondScreen"]}>
             <Paragraph>When I'm not coding, I'm probably:</Paragraph>
             <List>
               <li>
@@ -443,10 +448,10 @@ export function About() {
           title="Let's Connect"
           id="connect"
           icon={FiMessageSquare}
-          isExpanded={expandedCards["connect"]}
+          $isExpanded={expandedCards["connect"]}
         >
-          <CardContent isExpanded={true}>
-            <Paragraph>
+          <CardContent $isExpanded={true}>
+            <Paragraph $isLetsConnect={true}>
               If you're interested in working together, discussing tech, or just
               talking football—feel free to{" "}
               <StyledLink href="/contact">reach out</StyledLink>!
