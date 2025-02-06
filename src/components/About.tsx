@@ -23,6 +23,7 @@ import {
 import { PageSubtitle, PageTitle, SectionTitle } from "./shared/SharedStyles"
 import { memo, useCallback, useState } from "react"
 
+import { SEO } from "./shared/SEO"
 import styled from "styled-components"
 import { useThemeStore } from "../store/themeStore"
 
@@ -226,242 +227,251 @@ export function About() {
 
     // Scroll to the top of the section
     window.scrollTo({
-      top: sectionTop - 100, // Subtract some pixels to account for padding/margin
+      top: sectionTop - 100,
       behavior: "smooth",
     })
   }, [])
 
   return (
-    <AboutSection>
-      <BackgroundDecoration $isDarkMode={isDarkMode} />
-      <ContentWrapper>
-        <PageTitle>About Me</PageTitle>
-        <PageSubtitle>
-          A journey from business student to senior software engineer
-        </PageSubtitle>
+    <>
+      <SEO
+        title="About – Drew Ball's Journey & Experience"
+        description="Learn about Drew Ball's journey from business student to Senior Software Engineer. Specializing in React, TypeScript, .NET, and modern architectures across the stack."
+        path="/about"
+      />
+      <AboutSection>
+        <BackgroundDecoration $isDarkMode={isDarkMode} />
+        <ContentWrapper>
+          <PageTitle>About Me</PageTitle>
+          <PageSubtitle>
+            A journey from business student to senior software engineer
+          </PageSubtitle>
 
-        <HighlightCardSection
-          title="From Curiosity to Code"
-          id="curiosity"
-          icon={FiCode}
-          $isExpanded={expandedCards["curiosity"]}
-        >
-          <CardContent $isExpanded={expandedCards["curiosity"]}>
-            <Paragraph>
-              My journey into technology started at a young age. Growing up, I
-              was always surrounded by it—my dad, an SEO specialist, ran his own
-              agency, and I naturally became immersed in the digital world. When
-              it came time to choose a path in college, I pursued Business
-              Technology at Arizona State University, believing I had a solid
-              grasp of tech but wanted to understand its application in
-              business.
-            </Paragraph>
-            <Paragraph>
-              Everything changed when I took a software engineering elective.
-              Writing my first lines of HTML and CSS and seeing them render in a
-              browser ignited something in me. That curiosity quickly turned
-              into an obsession—I spent late nights diving into JavaScript,
-              React, databases, and full-stack development. What started as a
-              simple class became a defining moment in my career, leading me to
-              where I am today: a Senior Software Engineer building applications
-              across the entire stack.
-            </Paragraph>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("curiosity")}>
-            {expandedCards["curiosity"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="From Curiosity to Code"
+            id="curiosity"
+            icon={FiCode}
+            $isExpanded={expandedCards["curiosity"]}
+          >
+            <CardContent $isExpanded={expandedCards["curiosity"]}>
+              <Paragraph>
+                My journey into technology started at a young age. Growing up, I
+                was always surrounded by it—my dad, an SEO specialist, ran his
+                own agency, and I naturally became immersed in the digital
+                world. When it came time to choose a path in college, I pursued
+                Business Technology at Arizona State University, believing I had
+                a solid grasp of tech but wanted to understand its application
+                in business.
+              </Paragraph>
+              <Paragraph>
+                Everything changed when I took a software engineering elective.
+                Writing my first lines of HTML and CSS and seeing them render in
+                a browser ignited something in me. That curiosity quickly turned
+                into an obsession—I spent late nights diving into JavaScript,
+                React, databases, and full-stack development. What started as a
+                simple class became a defining moment in my career, leading me
+                to where I am today: a Senior Software Engineer building
+                applications across the entire stack.
+              </Paragraph>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("curiosity")}>
+              {expandedCards["curiosity"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="What I Do"
-          id="whatIDo"
-          icon={FiCpu}
-          $isExpanded={expandedCards["whatIDo"]}
-        >
-          <CardContent $isExpanded={expandedCards["whatIDo"]}>
-            <Paragraph>
-              Whether it's freelance websites, ecommerce platforms, or
-              large-scale government applications, I take pride in writing
-              clean, maintainable code that makes an impact:
-            </Paragraph>
-            <Paragraph>
-              I specialize in React and TypeScript, leveraging my expertise to
-              create scalable, high-performance applications. My frontend
-              knowledge extends beyond just coding—I focus on user experience,
-              accessibility, and performance optimization to ensure that the
-              products I build are not only functional but also intuitive and
-              efficient.
-            </Paragraph>
-            <Paragraph>
-              On the backend, I work extensively with ASP.NET (C#), PostgreSQL,
-              and containerized environments (WSL, Podman), allowing me to build
-              and manage complex systems that power enterprise applications.
-            </Paragraph>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("whatIDo")}>
-            {expandedCards["whatIDo"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="What I Do"
+            id="whatIDo"
+            icon={FiCpu}
+            $isExpanded={expandedCards["whatIDo"]}
+          >
+            <CardContent $isExpanded={expandedCards["whatIDo"]}>
+              <Paragraph>
+                Whether it's freelance websites, ecommerce platforms, or
+                large-scale government applications, I take pride in writing
+                clean, maintainable code that makes an impact:
+              </Paragraph>
+              <Paragraph>
+                I specialize in React and TypeScript, leveraging my expertise to
+                create scalable, high-performance applications. My frontend
+                knowledge extends beyond just coding—I focus on user experience,
+                accessibility, and performance optimization to ensure that the
+                products I build are not only functional but also intuitive and
+                efficient.
+              </Paragraph>
+              <Paragraph>
+                On the backend, I work extensively with ASP.NET (C#),
+                PostgreSQL, and containerized environments (WSL, Podman),
+                allowing me to build and manage complex systems that power
+                enterprise applications.
+              </Paragraph>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("whatIDo")}>
+              {expandedCards["whatIDo"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="My Problem-Solving Philosophy"
-          id="problemSolving"
-          icon={FiBookOpen}
-          $isExpanded={expandedCards["problemSolving"]}
-        >
-          <CardContent $isExpanded={expandedCards["problemSolving"]}>
-            <Paragraph>
-              Rather than getting lost in complexity, I approach each challenge
-              with a structured methodology:
-            </Paragraph>
-            <Paragraph>
-              I approach engineering like a well-structured book—each problem is
-              a chapter that needs a clear beginning, middle, and end. Rather
-              than getting lost in complexity, I break problems down into
-              structured outlines, ensuring that I stay focused and efficient.
-              This method allows me to work through challenges logically while
-              also providing clear estimations for stakeholders.
-            </Paragraph>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("problemSolving")}>
-            {expandedCards["problemSolving"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="My Problem-Solving Philosophy"
+            id="problemSolving"
+            icon={FiBookOpen}
+            $isExpanded={expandedCards["problemSolving"]}
+          >
+            <CardContent $isExpanded={expandedCards["problemSolving"]}>
+              <Paragraph>
+                Rather than getting lost in complexity, I approach each
+                challenge with a structured methodology:
+              </Paragraph>
+              <Paragraph>
+                I approach engineering like a well-structured book—each problem
+                is a chapter that needs a clear beginning, middle, and end.
+                Rather than getting lost in complexity, I break problems down
+                into structured outlines, ensuring that I stay focused and
+                efficient. This method allows me to work through challenges
+                logically while also providing clear estimations for
+                stakeholders.
+              </Paragraph>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("problemSolving")}>
+              {expandedCards["problemSolving"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="Industries & Impact"
-          id="industries"
-          icon={FiTarget}
-          $isExpanded={expandedCards["industries"]}
-        >
-          <CardContent $isExpanded={expandedCards["industries"]}>
-            <Paragraph>
-              I've had the opportunity to work on a diverse range of projects,
-              from small business websites to enterprise-level government
-              platforms. My most meaningful contributions have been in:
-            </Paragraph>
-            <List>
-              <li>
-                <strong>Ecommerce & SEO</strong>: Helping businesses scale
-                through improved page speed, SEO rankings, lead generation, and
-                conversion optimization.
-              </li>
-              <li>
-                <strong>Enterprise Solutions</strong>: Developing large-scale
-                platforms for government health services, empowering scientists,
-                geneticists, and researchers with tools to combat global health
-                crises.
-              </li>
-              <li>
-                <strong>Small Business Growth</strong>: Providing digital
-                transformation strategies for mom-and-pop businesses that
-                previously lacked an online presence.
-              </li>
-            </List>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("industries")}>
-            {expandedCards["industries"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="Industries & Impact"
+            id="industries"
+            icon={FiTarget}
+            $isExpanded={expandedCards["industries"]}
+          >
+            <CardContent $isExpanded={expandedCards["industries"]}>
+              <Paragraph>
+                I've had the opportunity to work on a diverse range of projects,
+                from small business websites to enterprise-level government
+                platforms. My most meaningful contributions have been in:
+              </Paragraph>
+              <List>
+                <li>
+                  <strong>Ecommerce & SEO</strong>: Helping businesses scale
+                  through improved page speed, SEO rankings, lead generation,
+                  and conversion optimization.
+                </li>
+                <li>
+                  <strong>Enterprise Solutions</strong>: Developing large-scale
+                  platforms for government health services, empowering
+                  scientists, geneticists, and researchers with tools to combat
+                  global health crises.
+                </li>
+                <li>
+                  <strong>Small Business Growth</strong>: Providing digital
+                  transformation strategies for mom-and-pop businesses that
+                  previously lacked an online presence.
+                </li>
+              </List>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("industries")}>
+              {expandedCards["industries"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="Vision & Goals"
-          id="vision"
-          icon={FiTrendingUp}
-          $isExpanded={expandedCards["vision"]}
-        >
-          <CardContent $isExpanded={expandedCards["vision"]}>
-            <Paragraph>
-              I'm always looking ahead. My short-term goal is to become a
-              well-rounded full-stack engineer with expertise across frontend,
-              backend, and DevOps. Long term, I see myself taking one of the
-              following paths:
-            </Paragraph>
-            <List>
-              <li>
-                Launching my own SaaS product or consulting agency—leveraging my
-                skills to build something from the ground up.
-              </li>
-              <li>
-                Stepping into tech leadership, whether as a CTO or department
-                head, helping shape the future of engineering teams.
-              </li>
-            </List>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("vision")}>
-            {expandedCards["vision"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="Vision & Goals"
+            id="vision"
+            icon={FiTrendingUp}
+            $isExpanded={expandedCards["vision"]}
+          >
+            <CardContent $isExpanded={expandedCards["vision"]}>
+              <Paragraph>
+                I'm always looking ahead. My short-term goal is to become a
+                well-rounded full-stack engineer with expertise across frontend,
+                backend, and DevOps. Long term, I see myself taking one of the
+                following paths:
+              </Paragraph>
+              <List>
+                <li>
+                  Launching my own SaaS product or consulting agency—leveraging
+                  my skills to build something from the ground up.
+                </li>
+                <li>
+                  Stepping into tech leadership, whether as a CTO or department
+                  head, helping shape the future of engineering teams.
+                </li>
+              </List>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("vision")}>
+              {expandedCards["vision"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="Why AI is a Game-Changer"
-          id="ai"
-          icon={FiZap}
-          $isExpanded={expandedCards["ai"]}
-        >
-          <CardContent $isExpanded={expandedCards["ai"]}>
-            <Paragraph>
-              The landscape of software development is rapidly evolving, and AI
-              is at the forefront of this transformation:
-            </Paragraph>
-            <Paragraph>
-              I firmly believe that AI is reshaping software development—not
-              replacing engineers, but enhancing productivity and accelerating
-              innovation. I use AI daily for research, debugging, and automating
-              repetitive tasks, and I'm excited to see how these tools will
-              continue to evolve. The barrier to entry in tech has never been
-              lower, and I welcome the wave of innovation that AI is bringing to
-              the industry.
-            </Paragraph>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("ai")}>
-            {expandedCards["ai"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="Why AI is a Game-Changer"
+            id="ai"
+            icon={FiZap}
+            $isExpanded={expandedCards["ai"]}
+          >
+            <CardContent $isExpanded={expandedCards["ai"]}>
+              <Paragraph>
+                The landscape of software development is rapidly evolving, and
+                AI is at the forefront of this transformation:
+              </Paragraph>
+              <Paragraph>
+                I firmly believe that AI is reshaping software development—not
+                replacing engineers, but enhancing productivity and accelerating
+                innovation. I use AI daily for research, debugging, and
+                automating repetitive tasks, and I'm excited to see how these
+                tools will continue to evolve. The barrier to entry in tech has
+                never been lower, and I welcome the wave of innovation that AI
+                is bringing to the industry.
+              </Paragraph>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("ai")}>
+              {expandedCards["ai"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="Beyond the Screen"
-          id="beyondScreen"
-          icon={FiUserPlus}
-          $isExpanded={expandedCards["beyondScreen"]}
-        >
-          <CardContent $isExpanded={expandedCards["beyondScreen"]}>
-            <Paragraph>When I'm not coding, I'm probably:</Paragraph>
-            <List>
-              <li>
-                Spending time with my wife, Amy, and our two dogs, Donnie and
-                Rocco (my unofficial pair-programming partners)
-              </li>
-              <li>
-                Watching Philadelphia sports—I've been a die-hard Eagles fan
-                since birth. Go Birds!
-              </li>
-              <li>Training in my home gym, one of my best investments yet</li>
-            </List>
-          </CardContent>
-          <ReadMoreButton onClick={() => toggleCard("beyondScreen")}>
-            {expandedCards["beyondScreen"] ? "Read Less" : "Read More..."}
-          </ReadMoreButton>
-        </HighlightCardSection>
+          <HighlightCardSection
+            title="Beyond the Screen"
+            id="beyondScreen"
+            icon={FiUserPlus}
+            $isExpanded={expandedCards["beyondScreen"]}
+          >
+            <CardContent $isExpanded={expandedCards["beyondScreen"]}>
+              <Paragraph>When I'm not coding, I'm probably:</Paragraph>
+              <List>
+                <li>
+                  Spending time with my wife, Amy, and our two dogs, Donnie and
+                  Rocco (my unofficial pair-programming partners)
+                </li>
+                <li>
+                  Watching Philadelphia sports—I've been a die-hard Eagles fan
+                  since birth. Go Birds!
+                </li>
+                <li>Training in my home gym, one of my best investments yet</li>
+              </List>
+            </CardContent>
+            <ReadMoreButton onClick={() => toggleCard("beyondScreen")}>
+              {expandedCards["beyondScreen"] ? "Read Less" : "Read More..."}
+            </ReadMoreButton>
+          </HighlightCardSection>
 
-        <HighlightCardSection
-          title="Let's Connect"
-          id="connect"
-          icon={FiMessageSquare}
-          $isExpanded={expandedCards["connect"]}
-        >
-          <CardContent $isExpanded={true}>
-            <Paragraph $isLetsConnect={true}>
-              If you're interested in working together, discussing tech, or just
-              talking football—feel free to{" "}
-              <StyledLink href="/contact">reach out</StyledLink>!
-            </Paragraph>
-          </CardContent>
-          <ReadMoreButton
-            onClick={() => toggleCard("connect")}
-          ></ReadMoreButton>
-        </HighlightCardSection>
-      </ContentWrapper>
-    </AboutSection>
+          <HighlightCardSection
+            title="Let's Connect"
+            id="connect"
+            icon={FiMessageSquare}
+            $isExpanded={expandedCards["connect"]}
+          >
+            <CardContent $isExpanded={true}>
+              <Paragraph $isLetsConnect={true}>
+                If you're interested in working together, discussing tech, or
+                just talking football—feel free to{" "}
+                <StyledLink href="/contact">reach out</StyledLink>!
+              </Paragraph>
+            </CardContent>
+            <ReadMoreButton
+              onClick={() => toggleCard("connect")}
+            ></ReadMoreButton>
+          </HighlightCardSection>
+        </ContentWrapper>
+      </AboutSection>
+    </>
   )
 }

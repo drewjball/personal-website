@@ -6,6 +6,7 @@ import {
   SPACING,
   TRANSITIONS,
 } from "../constants/theme"
+import { CONTACT_INFO, COPYRIGHT, SOCIAL_LINKS } from "../constants"
 import {
   FiDownload,
   FiGithub,
@@ -160,7 +161,6 @@ const handleDownload = async () => {
 }
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
   return (
     <FooterContainer>
       <FooterContent>
@@ -181,11 +181,11 @@ export function Footer() {
             <FiDownload />
             Resume
           </FooterLink>
-          <ExternalLink href="https://github.com/drewjball">
+          <ExternalLink href={SOCIAL_LINKS.GITHUB}>
             <FiGithub />
             GitHub
           </ExternalLink>
-          <ExternalLink href="https://linkedin.com/in/drew-ball-b42912166">
+          <ExternalLink href={SOCIAL_LINKS.LINKEDIN}>
             <FiLinkedin />
             LinkedIn
           </ExternalLink>
@@ -193,14 +193,14 @@ export function Footer() {
 
         <FooterSection>
           <FooterTitle>Social</FooterTitle>
-          <ExternalLink href="https://x.com/drewjball">
+          <ExternalLink href={SOCIAL_LINKS.X}>
             <RiTwitterXFill />X
           </ExternalLink>
-          <ExternalLink href="https://instagram.com/drewjball">
+          <ExternalLink href={SOCIAL_LINKS.INSTAGRAM}>
             <FiInstagram />
             Instagram
           </ExternalLink>
-          <ExternalLink href="https://youtube.com/@drewjball">
+          <ExternalLink href={SOCIAL_LINKS.YOUTUBE}>
             <FiYoutube />
             YouTube
           </ExternalLink>
@@ -208,17 +208,17 @@ export function Footer() {
 
         <FooterSection>
           <FooterTitle>Contact</FooterTitle>
-          <ExternalLink href="mailto:drewjball@gmail.com">
+          <ExternalLink href={SOCIAL_LINKS.EMAIL}>
             <FiMail />
-            drewjball@gmail.com
+            {CONTACT_INFO.EMAIL}
           </ExternalLink>
-          <ExternalLink href="tel:480-734-0623">
+          <ExternalLink href={SOCIAL_LINKS.PHONE}>
             <FiPhone />
-            {`+1 (480) 734-0623`}
+            {CONTACT_INFO.PHONE}
           </ExternalLink>
         </FooterSection>
       </FooterContent>
-      <Copyright>© {currentYear} Drew Ball. All rights reserved.</Copyright>
+      <Copyright>© {COPYRIGHT.YEAR} Drew Ball. All rights reserved.</Copyright>
     </FooterContainer>
   )
 }

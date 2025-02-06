@@ -10,6 +10,7 @@ import {
   TRANSITIONS,
   Z_INDEX,
 } from "../constants/theme"
+import { CONTACT_INFO, SOCIAL_LINKS } from "../constants"
 import {
   FiGithub,
   FiInstagram,
@@ -26,6 +27,7 @@ import { useRef, useState } from "react"
 
 import ReCAPTCHA from "react-google-recaptcha"
 import { RiTwitterXFill } from "react-icons/ri"
+import { SEO } from "./shared/SEO"
 import emailjs from "@emailjs/browser"
 import styled from "styled-components"
 import { useThemeStore } from "../store/themeStore"
@@ -537,222 +539,227 @@ export function Contact() {
   }
 
   return (
-    <ContactSection>
-      <BackgroundDecoration $isDarkMode={isDarkMode} />
-      <ContactContainer>
-        <PageTitle>Reach Out!</PageTitle>
-        <PageSubtitle>
-          I'm always interested in hearing about new opportunities and
-          connections.
-        </PageSubtitle>
+    <>
+      <SEO
+        title="Contact – Connect with Drew Ball, a Senior Software Engineer"
+        description="Get in touch with Drew Ball, a Senior Software Engineer focused on modern web development, scalable architectures, and building high-performance applications."
+        path="/contact"
+      />
+      <ContactSection>
+        <BackgroundDecoration $isDarkMode={isDarkMode} />
+        <ContactContainer>
+          <PageTitle>Reach Out!</PageTitle>
+          <PageSubtitle>
+            I'm always interested in hearing about new opportunities and
+            connections.
+          </PageSubtitle>
 
-        {isSuccess ? (
-          <SuccessContainer>
-            <SuccessTitle>Thank You!</SuccessTitle>
-            <SuccessMessage>
-              Thanks for reaching out! I'll be sure to get back to you as soon
-              as possible. I typically respond within 24-48 hours, but feel free
-              to reach out again if you haven't heard from me using one of the
-              items below.
-            </SuccessMessage>
-            <ResetButton onClick={handleReset}>
-              Send Another Message
-            </ResetButton>
-          </SuccessContainer>
-        ) : (
-          <>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <FormRow>
+          {isSuccess ? (
+            <SuccessContainer>
+              <SuccessTitle>Thank You!</SuccessTitle>
+              <SuccessMessage>
+                Thanks for reaching out! I'll be sure to get back to you as soon
+                as possible. I typically respond within 24-48 hours, but feel
+                free to reach out again if you haven't heard from me using one
+                of the items below.
+              </SuccessMessage>
+              <ResetButton onClick={handleReset}>
+                Send Another Message
+              </ResetButton>
+            </SuccessContainer>
+          ) : (
+            <>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <FormRow>
+                  <FormGroup>
+                    <Icon>
+                      <FiUser />
+                    </Icon>
+                    <Input
+                      placeholder="First Name *"
+                      {...register("firstName", {
+                        required: "First name is required",
+                        minLength: { value: 2, message: "Name is too short" },
+                        validate: (value) =>
+                          value.trim() !== "" || "First name cannot be empty",
+                      })}
+                      $hasError={!!errors.firstName}
+                    />
+                    {errors.firstName && (
+                      <ErrorMessage>{errors.firstName.message}</ErrorMessage>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Icon>
+                      <FiUser />
+                    </Icon>
+                    <Input
+                      placeholder="Last Name *"
+                      {...register("lastName", {
+                        required: "Last name is required",
+                        minLength: { value: 2, message: "Name is too short" },
+                        validate: (value) =>
+                          value.trim() !== "" || "Last name cannot be empty",
+                      })}
+                      $hasError={!!errors.lastName}
+                    />
+                    {errors.lastName && (
+                      <ErrorMessage>{errors.lastName.message}</ErrorMessage>
+                    )}
+                  </FormGroup>
+                </FormRow>
+                <FormRow>
+                  <FormGroup>
+                    <Icon>
+                      <FiMail />
+                    </Icon>
+                    <Input
+                      type="email"
+                      placeholder="Email *"
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: "Invalid email address",
+                        },
+                        validate: (value) =>
+                          value.trim() !== "" || "Email cannot be empty",
+                      })}
+                      $hasError={!!errors.email}
+                    />
+                    {errors.email && (
+                      <ErrorMessage>{errors.email.message}</ErrorMessage>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Icon>
+                      <FiPhone />
+                    </Icon>
+                    <Input
+                      type="tel"
+                      placeholder="Phone (optional)"
+                      {...register("phone", {
+                        pattern: {
+                          value:
+                            /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
+                          message: "Invalid phone number",
+                        },
+                      })}
+                      $hasError={!!errors.phone}
+                    />
+                    {errors.phone && (
+                      <ErrorMessage>{errors.phone.message}</ErrorMessage>
+                    )}
+                  </FormGroup>
+                </FormRow>
                 <FormGroup>
-                  <Icon>
-                    <FiUser />
-                  </Icon>
-                  <Input
-                    placeholder="First Name *"
-                    {...register("firstName", {
-                      required: "First name is required",
-                      minLength: { value: 2, message: "Name is too short" },
-                      validate: (value) =>
-                        value.trim() !== "" || "First name cannot be empty",
-                    })}
-                    $hasError={!!errors.firstName}
-                  />
-                  {errors.firstName && (
-                    <ErrorMessage>{errors.firstName.message}</ErrorMessage>
-                  )}
-                </FormGroup>
-                <FormGroup>
-                  <Icon>
-                    <FiUser />
-                  </Icon>
-                  <Input
-                    placeholder="Last Name *"
-                    {...register("lastName", {
-                      required: "Last name is required",
-                      minLength: { value: 2, message: "Name is too short" },
-                      validate: (value) =>
-                        value.trim() !== "" || "Last name cannot be empty",
-                    })}
-                    $hasError={!!errors.lastName}
-                  />
-                  {errors.lastName && (
-                    <ErrorMessage>{errors.lastName.message}</ErrorMessage>
-                  )}
-                </FormGroup>
-              </FormRow>
-              <FormRow>
-                <FormGroup>
-                  <Icon>
+                  <MessageIcon>
                     <FiMail />
-                  </Icon>
-                  <Input
-                    type="email"
-                    placeholder="Email *"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address",
-                      },
+                  </MessageIcon>
+                  <TextArea
+                    placeholder="Your Message *"
+                    {...register("message", {
+                      required: "Message is required",
+                      minLength: { value: 10, message: "Message is too short" },
                       validate: (value) =>
-                        value.trim() !== "" || "Email cannot be empty",
+                        value.trim() !== "" || "Message cannot be empty",
                     })}
-                    $hasError={!!errors.email}
+                    $hasError={!!errors.message}
                   />
-                  {errors.email && (
-                    <ErrorMessage>{errors.email.message}</ErrorMessage>
+                  {errors.message && (
+                    <ErrorMessage>{errors.message.message}</ErrorMessage>
                   )}
                 </FormGroup>
-                <FormGroup>
-                  <Icon>
-                    <FiPhone />
-                  </Icon>
-                  <Input
-                    type="tel"
-                    placeholder="Phone (optional)"
-                    {...register("phone", {
-                      pattern: {
-                        value:
-                          /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/,
-                        message: "Invalid phone number",
-                      },
-                    })}
-                    $hasError={!!errors.phone}
+                <RecaptchaWrapper>
+                  <ReCAPTCHA
+                    key={isDarkMode ? "dark" : "light"}
+                    ref={recaptchaRef}
+                    sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                    onChange={handleRecaptchaChange}
+                    theme={isDarkMode ? "dark" : "light"}
                   />
-                  {errors.phone && (
-                    <ErrorMessage>{errors.phone.message}</ErrorMessage>
-                  )}
-                </FormGroup>
-              </FormRow>
-              <FormGroup>
-                <MessageIcon>
+                </RecaptchaWrapper>
+                <SubmitButton
+                  type="submit"
+                  disabled={isSubmitting || !recaptchaToken}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                  <FiSend />
+                </SubmitButton>
+                {submitError && <FormError>{submitError}</FormError>}
+              </Form>
+            </>
+          )}
+          <ContactInfo>
+            <ContactInfoTitle>Let's Connect</ContactInfoTitle>
+            <ContactDetails>
+              <ContactItem
+                onClick={() => (window.location.href = SOCIAL_LINKS.PHONE)}
+              >
+                <ContactLabel>Phone</ContactLabel>
+                <ContactValue>
+                  <FiPhone />
+                  <span>{CONTACT_INFO.PHONE}</span>
+                </ContactValue>
+              </ContactItem>
+              <ContactItem
+                onClick={() => (window.location.href = SOCIAL_LINKS.EMAIL)}
+              >
+                <ContactLabel>Email</ContactLabel>
+                <ContactValue>
                   <FiMail />
-                </MessageIcon>
-                <TextArea
-                  placeholder="Your Message *"
-                  {...register("message", {
-                    required: "Message is required",
-                    minLength: { value: 10, message: "Message is too short" },
-                    validate: (value) =>
-                      value.trim() !== "" || "Message cannot be empty",
-                  })}
-                  $hasError={!!errors.message}
-                />
-                {errors.message && (
-                  <ErrorMessage>{errors.message.message}</ErrorMessage>
-                )}
-              </FormGroup>
-              <RecaptchaWrapper>
-                <ReCAPTCHA
-                  key={isDarkMode ? "dark" : "light"}
-                  ref={recaptchaRef}
-                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-                  onChange={handleRecaptchaChange}
-                  theme={isDarkMode ? "dark" : "light"}
-                />
-              </RecaptchaWrapper>
-              <SubmitButton
-                type="submit"
-                disabled={isSubmitting || !recaptchaToken}
-              >
-                {isSubmitting ? "Sending..." : "Send Message"}
-                <FiSend />
-              </SubmitButton>
-              {submitError && <FormError>{submitError}</FormError>}
-            </Form>
-          </>
-        )}
-        <ContactInfo>
-          <ContactInfoTitle>Let's Connect</ContactInfoTitle>
-          <ContactDetails>
-            <ContactItem
-              onClick={() => (window.location.href = "tel:+14807340623")}
-            >
-              <ContactLabel>Phone</ContactLabel>
-              <ContactValue>
-                <FiPhone />
-                <span>+1 (480) 734-0623</span>
-              </ContactValue>
-            </ContactItem>
-            <ContactItem
-              onClick={() =>
-                (window.location.href = "mailto:drewjball@gmail.com")
-              }
-            >
-              <ContactLabel>Email</ContactLabel>
-              <ContactValue>
-                <FiMail />
-                <span>drewjball@gmail.com</span>
-              </ContactValue>
-            </ContactItem>
-          </ContactDetails>
-          <SocialLinks>
-            <SocialLinksLabel>Follow Me</SocialLinksLabel>
-            <SocialLinksWrapper>
-              <SocialLink
-                href="https://github.com/drewjball"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub Profile"
-              >
-                <FiGithub />
-              </SocialLink>
-              <SocialLink
-                href="https://linkedin.com/in/drew-ball-b42912166"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn Profile"
-              >
-                <FiLinkedin />
-              </SocialLink>
-              <SocialLink
-                href="https://instagram.com/drewjball"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram Profile"
-              >
-                <FiInstagram />
-              </SocialLink>
-              <SocialLink
-                href="https://youtube.com/@drewjball"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Youtube Profile"
-              >
-                <FiYoutube />
-              </SocialLink>
-              <SocialLink
-                href="https://x.com/drewjball"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X Profile"
-              >
-                <RiTwitterXFill />
-              </SocialLink>
-            </SocialLinksWrapper>
-          </SocialLinks>
-        </ContactInfo>
-      </ContactContainer>
-    </ContactSection>
+                  <span>{CONTACT_INFO.EMAIL}</span>
+                </ContactValue>
+              </ContactItem>
+            </ContactDetails>
+            <SocialLinks>
+              <SocialLinksLabel>Follow Me</SocialLinksLabel>
+              <SocialLinksWrapper>
+                <SocialLink
+                  href={SOCIAL_LINKS.GITHUB}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub Profile"
+                >
+                  <FiGithub />
+                </SocialLink>
+                <SocialLink
+                  href={SOCIAL_LINKS.LINKEDIN}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn Profile"
+                >
+                  <FiLinkedin />
+                </SocialLink>
+                <SocialLink
+                  href={SOCIAL_LINKS.INSTAGRAM}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram Profile"
+                >
+                  <FiInstagram />
+                </SocialLink>
+                <SocialLink
+                  href={SOCIAL_LINKS.YOUTUBE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Youtube Profile"
+                >
+                  <FiYoutube />
+                </SocialLink>
+                <SocialLink
+                  href={SOCIAL_LINKS.X}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X Profile"
+                >
+                  <RiTwitterXFill />
+                </SocialLink>
+              </SocialLinksWrapper>
+            </SocialLinks>
+          </ContactInfo>
+        </ContactContainer>
+      </ContactSection>
+    </>
   )
 }
