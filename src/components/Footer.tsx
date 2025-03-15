@@ -168,8 +168,8 @@ export function Footer() {
           <FooterNav aria-label="Site navigation">
             <FooterTitle>Navigation</FooterTitle>
             <FooterLink to="/">Home</FooterLink>
-            <FooterLink to="/portfolio">Portfolio</FooterLink>
-            <FooterLink to="/blog">Blog</FooterLink>
+            {/* <FooterLink to="/portfolio">Portfolio</FooterLink> */}
+            {/* <FooterLink to="/blog">Blog</FooterLink> */}
             <FooterLink to="/about">About</FooterLink>
             <FooterLink to="/contact">Contact</FooterLink>
           </FooterNav>
