@@ -2,7 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import { darkTheme, lightTheme } from "./theme"
 
 import { About } from "./components/About"
-import { Blog } from "./components/Blog"
+// import { Blog } from "./components/Blog"
 import { Contact } from "./components/Contact"
 import { Education } from "./components/Education"
 import { Experience } from "./components/Experience"
@@ -10,7 +10,8 @@ import { Footer } from "./components/Footer"
 import GlobalStyle from "./GlobalStyle"
 import { Hero } from "./components/Hero"
 import { Navigation } from "./components/Navigation"
-import { Portfolio } from "./components/Portfolio"
+import { NotFound } from "./components/NotFound"
+// import { Portfolio } from "./components/Portfolio"
 import { SEO } from "./components/shared/SEO"
 import { Skills } from "./components/Skills"
 import { ThemeProvider } from "styled-components"
@@ -48,6 +49,14 @@ function HomePage() {
 function App() {
   const { isDarkMode } = useThemeStore()
 
+  const handleNotFound = () => {
+    // Force 404 status code
+    const meta = document.createElement("meta")
+    meta.httpEquiv = "status"
+    meta.content = "404"
+    document.head.appendChild(meta)
+  }
+
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyle />
@@ -57,10 +66,11 @@ function App() {
           <MainContainer>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/portfolio" element={<Portfolio />} />
+              {/* <Route path="/portfolio" element={<Portfolio />} /> */}
               <Route path="/about" element={<About />} />
-              <Route path="/blog" element={<Blog />} />
+              {/* <Route path="/blog" element={<Blog />} /> */}
               <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound onMount={handleNotFound} />} />
             </Routes>
           </MainContainer>
           <Footer />

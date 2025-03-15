@@ -1,0 +1,25 @@
+{
+  "routes": [
+    { "handle": "filesystem" },
+    {
+      "src": "/((?!api/).*)",
+      "dest": "/index.html",
+      "status": 404,
+      "headers": {
+        "Cache-Control": "no-cache",
+        "X-Status-Override": "404"
+      }
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    }
+  ]
+}

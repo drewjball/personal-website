@@ -241,7 +241,7 @@ export function Navigation() {
                 Home
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/portfolio" onClick={handleLinkClick}>
                 Portfolio
               </NavLink>
@@ -250,7 +250,7 @@ export function Navigation() {
               <NavLink to="/blog" onClick={handleLinkClick}>
                 Blog
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink to="/about" onClick={handleLinkClick}>
                 About
@@ -285,12 +285,12 @@ export function Navigation() {
         <NavLink to="/" onClick={handleLinkClick}>
           Home
         </NavLink>
-        <NavLink to="/portfolio" onClick={handleLinkClick}>
+        {/* <NavLink to="/portfolio" onClick={handleLinkClick}>
           Portfolio
         </NavLink>
         <NavLink to="/blog" onClick={handleLinkClick}>
           Blog
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/about" onClick={handleLinkClick}>
           About
         </NavLink>
