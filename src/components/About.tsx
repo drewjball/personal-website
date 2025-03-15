@@ -256,7 +256,7 @@ export function About() {
             <CardContent $isExpanded={expandedCards["curiosity"]}>
               <Paragraph>
                 My journey into technology started at a young age. Growing up, I
-                was always surrounded by it—my dad, an SEO specialist, ran his
+                was always surrounded by it. My dad, an SEO specialist, ran his
                 own agency, and I naturally became immersed in the digital
                 world. When it came time to choose a path in college, I pursued
                 Business Technology at Arizona State University, believing I had
