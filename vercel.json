@@ -14,14 +14,22 @@
           "value": "no-cache"
         },
         {
-          "key": "X-Status-Override",
-          "value": "404"
-        },
-        {
           "key": "X-Frame-Options",
           "value": "DENY"
         }
       ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/404",
+      "status": 404,
+      "dest": "/404.html"
+    },
+    {
+      "src": "/500",
+      "status": 500,
+      "dest": "/500.html"
     }
   ]
 }
