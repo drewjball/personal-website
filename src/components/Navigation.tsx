@@ -73,12 +73,28 @@ const LogoImage = styled.img<{ $isHover?: boolean }>`
   height: 100%;
   width: auto;
   position: absolute;
-  transition: opacity 0.3s ease; // One off style
-  opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : OPACITY.FULL)};
+  transition: opacity 0.3s ease;
+  opacity: ${({ $isHover }) => ($isHover ? 0 : OPACITY.FULL)};
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    opacity: ${OPACITY.FULL};
+
+    ${Logo}:active & {
+      opacity: 0;
+    }
+  }
 `
 
 const HoverLogoImage = styled(LogoImage)`
   opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : 0)};
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    opacity: 0;
+
+    ${Logo}:active & {
+      opacity: ${OPACITY.FULL};
+    }
+  }
 `
 
 const NavList = styled.ul<{ $isOpen: boolean }>`
@@ -221,13 +237,6 @@ export function Navigation() {
     setIsHovered(false)
   }
 
-  const handleLogoTouch = () => {
-    setIsHovered(true)
-    setTimeout(() => {
-      setIsHovered(false)
-    }, 300)
-  }
-
   return (
     <Nav $isOpen={isOpen}>
       <NavContainer>
@@ -236,7 +245,6 @@ export function Navigation() {
           onClick={handleLinkClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleLogoTouch}
         >
           <LogoImage
             src={isDarkMode ? lightLogo : darkLogo}
