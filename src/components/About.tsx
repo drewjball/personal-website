@@ -28,7 +28,7 @@ import styled from "styled-components"
 import { useThemeStore } from "../store/themeStore"
 
 const AboutSection = styled.section`
-  padding: ${SPACING.XXLARGE} ${SPACING.LARGE};
+  padding: ${SPACING.XXLARGE} ${SPACING.MEDIUM};
   background-color: ${({ theme }) => theme.background};
   position: relative;
   overflow: hidden;

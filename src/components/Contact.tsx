@@ -41,7 +41,7 @@ interface IFormInputs {
 }
 
 const ContactSection = styled.section`
-  padding: ${SPACING.LARGE} ${SPACING.MEDIUM};
+  padding: ${SPACING.XXLARGE} ${SPACING.MEDIUM};
   background-color: ${({ theme }) => theme.background};
   position: relative;
   overflow: hidden;
@@ -79,6 +79,19 @@ const Form = styled.form`
     padding: ${SPACING.MEDIUM};
     gap: ${SPACING.MEDIUM};
     width: 100%;
+  }
+
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    margin: 0 auto;
+    width: 270px;
+
+    div {
+      padding: 0;
+    }
+
+    input {
+      width: 222px;
+    }
   }
 `
 
@@ -154,6 +167,10 @@ const TextArea = styled.textarea<{ $hasError?: boolean }>`
     border-color: ${({ theme }) => theme.accent};
     box-shadow: ${SHADOWS.MEDIUM};
   }
+
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    width: 222px;
+  }
 `
 
 const Icon = styled.div`
@@ -199,6 +216,10 @@ const SubmitButton = styled.button`
   @media (max-width: ${BREAKPOINTS.MOBILE}) {
     margin-top: 0;
   }
+
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    width: 222px;
+  }
 `
 
 const ErrorMessage = styled.span`
@@ -221,6 +242,15 @@ const ContactInfo = styled.div`
     padding: ${SPACING.MEDIUM};
     margin-top: ${SPACING.MEDIUM};
   }
+
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    margin: ${SPACING.MEDIUM} auto;
+    width: 270px;
+    word-break: break-all;
+    svg {
+      display: none;
+    }
+  }
 `
 
 const ContactInfoTitle = styled.h2`
@@ -231,6 +261,10 @@ const ContactInfoTitle = styled.h2`
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
     font-size: ${FONT_SIZES.XXLARGE};
+  }
+
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    font-size: ${FONT_SIZES.XLARGE};
   }
 `
 
@@ -385,8 +419,13 @@ const RecaptchaWrapper = styled.div`
   @media (max-width: ${BREAKPOINTS.MOBILE}) {
     transform: scale(0.75);
     transform-origin: center;
+    margin: 0 -6px; // Compensate for scale
+  }
 
-    margin: 0 -13px; // Compensate for scale
+  @media (max-width: ${BREAKPOINTS.SMALLMOBILE}) {
+    transform: scale(0.73);
+    margin: -10px -38px; // Further adjust margins to center the scaled element
+    width: 300px;
   }
 `
 
