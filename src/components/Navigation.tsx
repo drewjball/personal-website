@@ -74,26 +74,23 @@ const LogoImage = styled.img<{ $isHover?: boolean }>`
   width: auto;
   position: absolute;
   transition: opacity 0.3s ease;
-  opacity: ${({ $isHover }) => ($isHover ? 0 : OPACITY.FULL)};
+
+  @media (min-width: ${BREAKPOINTS.TABLET}) {
+    opacity: ${({ $isHover }) => ($isHover ? 0 : OPACITY.FULL)};
+  }
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
     opacity: ${OPACITY.FULL};
-
-    ${Logo}:active & {
-      opacity: 0;
-    }
   }
 `
 
 const HoverLogoImage = styled(LogoImage)`
-  opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : 0)};
+  @media (min-width: ${BREAKPOINTS.TABLET}) {
+    opacity: ${({ $isHover }) => ($isHover ? OPACITY.FULL : 0)};
+  }
 
   @media (max-width: ${BREAKPOINTS.TABLET}) {
-    opacity: 0;
-
-    ${Logo}:active & {
-      opacity: ${OPACITY.FULL};
-    }
+    display: none;
   }
 `
 
