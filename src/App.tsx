@@ -1,4 +1,9 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation,
+} from "react-router-dom"
 import { darkTheme, lightTheme } from "./theme"
 
 import { About } from "./components/About"
@@ -16,6 +21,7 @@ import { SEO } from "./components/shared/SEO"
 import { Skills } from "./components/Skills"
 import { ThemeProvider } from "styled-components"
 import styled from "styled-components"
+import { useEffect } from "react"
 import { useThemeStore } from "./store/themeStore"
 
 const AppWrapper = styled.div`
@@ -46,6 +52,16 @@ function HomePage() {
   )
 }
 
+function ScrollToTop() {
+  const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location])
+
+  return null
+}
+
 function App() {
   const { isDarkMode } = useThemeStore()
 
@@ -62,6 +78,7 @@ function App() {
       <GlobalStyle />
       <Router>
         <AppWrapper>
+          <ScrollToTop />
           <Navigation />
           <MainContainer>
             <Routes>

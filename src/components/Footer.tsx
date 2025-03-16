@@ -147,9 +147,9 @@ const Copyright = styled.p`
   }
 `
 
-const FooterNav = styled.nav`
-  // styles from FooterSection
-`
+// const FooterNav = styled.nav`
+//   // styles from FooterSection
+// `
 
 const handleDownload = async () => {
   const link = document.createElement("a")
@@ -165,14 +165,14 @@ export function Footer() {
     <FooterContainer>
       <FooterContent>
         <FooterSection>
-          <FooterNav aria-label="Site navigation">
-            <FooterTitle>Navigation</FooterTitle>
-            <FooterLink to="/">Home</FooterLink>
-            {/* <FooterLink to="/portfolio">Portfolio</FooterLink> */}
-            {/* <FooterLink to="/blog">Blog</FooterLink> */}
-            <FooterLink to="/about">About</FooterLink>
-            <FooterLink to="/contact">Contact</FooterLink>
-          </FooterNav>
+          {/* <FooterNav aria-label="Site navigation"> */}
+          <FooterTitle>Navigation</FooterTitle>
+          <FooterLink to="/">Home</FooterLink>
+          {/* <FooterLink to="/portfolio">Portfolio</FooterLink> */}
+          {/* <FooterLink to="/blog">Blog</FooterLink> */}
+          <FooterLink to="/about">About</FooterLink>
+          <FooterLink to="/contact">Contact</FooterLink>
+          {/* </FooterNav> */}
         </FooterSection>
 
         <FooterSection>

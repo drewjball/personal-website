@@ -171,11 +171,6 @@ const Icon = styled.div`
   }
 `
 
-const MessageIcon = styled(Icon)`
-  top: ${SPACING.SMALL};
-  transform: none;
-`
-
 const SubmitButton = styled.button`
   background: ${({ theme }) => theme.accent};
   color: ${({ theme }) => theme.background};
@@ -653,9 +648,9 @@ export function Contact() {
                   </FormGroup>
                 </FormRow>
                 <FormGroup>
-                  <MessageIcon>
+                  <Icon>
                     <FiMail />
-                  </MessageIcon>
+                  </Icon>
                   <TextArea
                     placeholder="Your Message *"
                     {...register("message", {

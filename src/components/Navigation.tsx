@@ -61,6 +61,12 @@ const Logo = styled(Link)`
   &:hover {
     transform: translateY(-1px);
   }
+
+  @media (max-width: ${BREAKPOINTS.TABLET}) {
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
 `
 
 const LogoImage = styled.img<{ $isHover?: boolean }>`
@@ -212,6 +218,14 @@ export function Navigation() {
 
   const handleLinkClick = () => {
     setIsOpen(false)
+    setIsHovered(false)
+  }
+
+  const handleLogoTouch = () => {
+    setIsHovered(true)
+    setTimeout(() => {
+      setIsHovered(false)
+    }, 300)
   }
 
   return (
@@ -222,6 +236,7 @@ export function Navigation() {
           onClick={handleLinkClick}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={handleLogoTouch}
         >
           <LogoImage
             src={isDarkMode ? lightLogo : darkLogo}
