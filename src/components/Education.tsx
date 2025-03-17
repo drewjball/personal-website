@@ -19,12 +19,14 @@ const Achievements = styled.ul`
     font-size: ${FONT_SIZES.BASE};
     line-height: ${LINE_HEIGHTS.BASE};
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: ${SPACING.SMALL};
 
     svg {
       color: ${({ theme }) => theme.accent};
       font-size: ${FONT_SIZES.SMALL};
+      flex-shrink: 0;
+      margin-top: 5px;
     }
   }
 `
