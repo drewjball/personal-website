@@ -62,10 +62,10 @@ export function Experience() {
                 detailed reviews.
               </Description>
               <Description>
-                Previously drove frontend improvements using React and Next.js
-                while managing content migration in Contentful CMS. Collaborated
-                with senior developers on feature enhancements and created
-                custom media assets using Adobe Creative Suite.
+                Previously contributed to frontend improvements using React and
+                Next.js while managing content migration in Contentful CMS.
+                Collaborated with senior developers on feature enhancements and
+                created custom media assets using Adobe Creative Suite.
               </Description>
             </>
           }

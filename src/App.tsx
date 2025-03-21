@@ -7,6 +7,7 @@ import {
 import { darkTheme, lightTheme } from "./theme"
 
 import { About } from "./components/About"
+import { Analytics } from "@vercel/analytics/react"
 // import { Blog } from "./components/Blog"
 import { Contact } from "./components/Contact"
 import { Education } from "./components/Education"
@@ -19,6 +20,7 @@ import { NotFound } from "./components/NotFound"
 // import { Portfolio } from "./components/Portfolio"
 import { SEO } from "./components/shared/SEO"
 import { Skills } from "./components/Skills"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import { ThemeProvider } from "styled-components"
 import styled from "styled-components"
 import { useEffect } from "react"
@@ -91,6 +93,8 @@ function App() {
             </Routes>
           </MainContainer>
           <Footer />
+          <SpeedInsights />
+          <Analytics />
         </AppWrapper>
       </Router>
     </ThemeProvider>
